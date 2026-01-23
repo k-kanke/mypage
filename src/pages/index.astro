@@ -17,8 +17,9 @@ const links = [
 ];
 
 const timelineEntries = await getCollection('timeline');
+const sortedEntries = [...timelineEntries].sort((a, b) => a.slug.localeCompare(b.slug));
 const timelineItems = await Promise.all(
-	timelineEntries.map(async (entry) => {
+	sortedEntries.map(async (entry) => {
 		const { Content } = await entry.render();
 		return {
 			...entry.data,
