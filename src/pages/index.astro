@@ -1,4 +1,5 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Timeline from '../components/Timeline.astro';
@@ -15,25 +16,16 @@ const links = [
 	{ label: 'Blog', url: 'https://example.com', icon: 'web' },
 ];
 
-const timelineItems = [
-	{
-		from: '2025.04',
-		to: '現在',
-		title: 'インターン参加',
-		description: 'Web開発チームでフロントエンド実装を担当。',
-	},
-	{
-		from: '2024.10',
-		to: '2025.03',
-		title: '個人開発',
-		description: 'ポートフォリオの刷新とデザイン改善に注力。',
-	},
-	{
-		from: '2023.09',
-		title: '学習開始',
-		description: 'HTML/CSS/JavaScriptの基礎から学習をスタート。',
-	},
-];
+const timelineEntries = await getCollection('timeline');
+const timelineItems = await Promise.all(
+	timelineEntries.map(async (entry) => {
+		const { Content } = await entry.render();
+		return {
+			...entry.data,
+			Content,
+		};
+	}),
+);
 ---
 
 <Layout>
