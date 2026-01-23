@@ -19,6 +19,33 @@ import Layout from '../layouts/Layout.astro';
 				<li><span>Blog</span><a href="https://example.com">https://example.com</a></li>
 			</ul>
 		</section>
+
+		<section class="card timeline">
+			<h2>Timeline</h2>
+			<ol class="timeline-list">
+				<li>
+					<time>2025.04</time>
+					<div>
+						<h3>インターン参加</h3>
+						<p>Web開発チームでフロントエンド実装を担当。</p>
+					</div>
+				</li>
+				<li>
+					<time>2024.10</time>
+					<div>
+						<h3>個人開発</h3>
+						<p>ポートフォリオの刷新とデザイン改善に注力。</p>
+					</div>
+				</li>
+				<li>
+					<time>2023.09</time>
+					<div>
+						<h3>学習開始</h3>
+						<p>HTML/CSS/JavaScriptの基礎から学習をスタート。</p>
+					</div>
+				</li>
+			</ol>
+		</section>
 	</main>
 </Layout>
 
@@ -116,6 +143,64 @@ import Layout from '../layouts/Layout.astro';
 		text-decoration: underline;
 	}
 
+	.timeline-list {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		position: relative;
+		display: grid;
+		gap: 24px;
+	}
+
+	.timeline-list::before {
+		content: '';
+		position: absolute;
+		left: 110px;
+		top: 6px;
+		bottom: 6px;
+		width: 2px;
+		background: linear-gradient(180deg, #c9d4d4 0%, #cfe0d3 100%);
+	}
+
+	.timeline-list li {
+		display: grid;
+		grid-template-columns: 90px 1fr;
+		gap: 20px;
+		align-items: start;
+		position: relative;
+	}
+
+	.timeline-list li::before {
+		content: '';
+		position: absolute;
+		left: 101px;
+		top: 6px;
+		width: 16px;
+		height: 16px;
+		border-radius: 50%;
+		background: #1b4c4c;
+		box-shadow: 0 0 0 6px rgba(27, 76, 76, 0.15);
+	}
+
+	.timeline-list time {
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		font-size: 12px;
+		letter-spacing: 0.08em;
+		color: #6a6a6a;
+	}
+
+	.timeline-list h3 {
+		margin: 0 0 6px;
+		font-size: 18px;
+	}
+
+	.timeline-list p {
+		margin: 0;
+		font-size: 15px;
+		line-height: 1.7;
+		color: #2f2f2f;
+	}
+
 	@media (max-width: 640px) {
 		.hero,
 		.card {
@@ -125,6 +210,19 @@ import Layout from '../layouts/Layout.astro';
 		.card li {
 			grid-template-columns: 1fr;
 			gap: 6px;
+		}
+
+		.timeline-list::before {
+			left: 16px;
+		}
+
+		.timeline-list li {
+			grid-template-columns: 1fr;
+			padding-left: 32px;
+		}
+
+		.timeline-list li::before {
+			left: 8px;
 		}
 	}
 </style>
