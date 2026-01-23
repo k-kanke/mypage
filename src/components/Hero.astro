@@ -1,0 +1,128 @@
+---
+const { name, role, lead, links = [] } = Astro.props;
+
+const icons = {
+	github: {
+		viewBox: '0 0 24 24',
+		path:
+			'M12 2c-5.52 0-10 4.58-10 10.23 0 4.52 2.87 8.36 6.84 9.72.5.1.68-.22.68-.48 0-.24-.01-.86-.01-1.69-2.78.62-3.37-1.1-3.37-1.1-.45-1.2-1.11-1.52-1.11-1.52-.9-.64.07-.63.07-.63 1 .08 1.53 1.07 1.53 1.07.89 1.58 2.34 1.12 2.91.85.09-.66.35-1.12.63-1.38-2.22-.26-4.56-1.14-4.56-5.09 0-1.12.39-2.03 1.03-2.74-.1-.26-.45-1.32.1-2.75 0 0 .85-.28 2.78 1.05.81-.23 1.67-.35 2.53-.35.86 0 1.72.12 2.53.35 1.93-1.33 2.78-1.05 2.78-1.05.55 1.43.2 2.49.1 2.75.64.71 1.03 1.62 1.03 2.74 0 3.96-2.34 4.83-4.57 5.08.36.32.69.95.69 1.92 0 1.38-.01 2.49-.01 2.83 0 .27.18.6.69.48 3.96-1.36 6.83-5.2 6.83-9.72C22 6.58 17.52 2 12 2z',
+	},
+	x: {
+		viewBox: '0 0 24 24',
+		path:
+			'M18.75 2H21l-7.24 8.28L22.5 22h-6.58l-5.15-6.72L4.7 22H2.44l7.75-8.88L1.5 2h6.74l4.67 6.11L18.75 2zm-2.31 18.2h1.82L7.51 3.69H5.56L16.44 20.2z',
+	},
+	web: {
+		viewBox: '0 0 24 24',
+		path:
+			'M12 2a10 10 0 100 20 10 10 0 000-20zm7.93 9h-3.22a15.7 15.7 0 00-1.23-5.05A8.02 8.02 0 0119.93 11zM12 4.07c1.02 1.33 1.9 3.51 2.29 6.93H9.71C10.1 7.58 10.98 5.4 12 4.07zM4.07 13h3.22c.3 2.05.86 3.86 1.56 5.05A8.03 8.03 0 014.07 13zM7.29 11H4.07a8.02 8.02 0 014.78-5.05A15.7 15.7 0 007.29 11zM12 19.93c-1.02-1.33-1.9-3.51-2.29-6.93h4.58c-.39 3.42-1.27 5.6-2.29 6.93zM15.15 18.05c.7-1.19 1.26-3 1.56-5.05h3.22a8.03 8.03 0 01-4.78 5.05z',
+	},
+};
+---
+
+<header class="hero">
+	<p class="eyebrow">Self Introduction</p>
+	<div class="title-row">
+		<h1 class="title">{name}</h1>
+		<nav class="icon-links" aria-label="Links">
+			{links.map((item) =>
+				icons[item.icon] ? (
+					<a class="icon-link" href={item.url} aria-label={item.label}>
+						<svg
+							viewBox={icons[item.icon].viewBox}
+							aria-hidden="true"
+							focusable="false"
+							width="16"
+							height="16"
+						>
+							<path d={icons[item.icon].path} />
+						</svg>
+					</a>
+				) : null,
+			)}
+		</nav>
+	</div>
+	<p class="role">{role}</p>
+	<p class="lead">{lead}</p>
+</header>
+
+<style>
+	.hero {
+		background: #ffffff;
+		border-radius: 24px;
+		padding: 40px;
+		box-shadow: 0 20px 40px rgba(30, 30, 30, 0.08);
+		border: 1px solid rgba(30, 30, 30, 0.06);
+	}
+
+	.eyebrow {
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		font-size: 12px;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		margin: 0 0 12px;
+		color: #5a5a5a;
+	}
+
+	.title {
+		font-size: clamp(32px, 6vw, 52px);
+		margin: 0 0 8px;
+	}
+
+	.title-row {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		flex-wrap: wrap;
+	}
+
+	.icon-links {
+		display: inline-flex;
+		gap: 10px;
+		align-items: center;
+	}
+
+	.icon-link {
+		width: 32px;
+		height: 32px;
+		border-radius: 999px;
+		display: inline-flex;
+		align-items: center;
+		justify-content: center;
+		color: #1b4c4c;
+		background: rgba(27, 76, 76, 0.08);
+		transition: transform 0.15s ease, background 0.15s ease;
+		overflow: hidden;
+	}
+
+	.icon-link:hover {
+		transform: translateY(-1px);
+		background: rgba(27, 76, 76, 0.16);
+	}
+
+	.icon-link svg {
+		width: 16px;
+		height: 16px;
+		display: block;
+		fill: currentColor;
+	}
+
+	.role {
+		font-size: 18px;
+		margin: 0 0 16px;
+		color: #3f3f3f;
+	}
+
+	.lead {
+		margin: 0;
+		font-size: 16px;
+		line-height: 1.8;
+		color: #2c2c2c;
+	}
+
+	@media (max-width: 640px) {
+		.hero {
+			padding: 28px 24px;
+		}
+	}
+</style>

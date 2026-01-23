@@ -1,51 +1,45 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Hero from '../components/Hero.astro';
+import Timeline from '../components/Timeline.astro';
+
+const hero = {
+	name: 'k-kanke',
+	role: '横浜国立大学 理工学部 数物・電子情報系学科 電子情報システムEP２年',
+	lead: 'ここに短い自己紹介文を入れます。得意分野や興味を一言で。',
+};
+
+const links = [
+	{ label: 'GitHub', url: 'https://github.com/k-kanke', icon: 'github' },
+	{ label: 'X', url: 'https://x.com/k__kanke', icon: 'x' },
+	{ label: 'Blog', url: 'https://example.com', icon: 'web' },
+];
+
+const timelineItems = [
+	{
+		from: '2025.04',
+		to: '現在',
+		title: 'インターン参加',
+		description: 'Web開発チームでフロントエンド実装を担当。',
+	},
+	{
+		from: '2024.10',
+		to: '2025.03',
+		title: '個人開発',
+		description: 'ポートフォリオの刷新とデザイン改善に注力。',
+	},
+	{
+		from: '2023.09',
+		title: '学習開始',
+		description: 'HTML/CSS/JavaScriptの基礎から学習をスタート。',
+	},
+];
 ---
 
 <Layout>
 	<main class="page">
-		<header class="hero">
-			<p class="eyebrow">Self Introduction</p>
-			<h1 class="title">名前（表示名）</h1>
-			<p class="role">職種・肩書き</p>
-			<p class="lead">ここに短い自己紹介文を入れます。得意分野や興味を一言で。</p>
-		</header>
-
-		<section class="card">
-			<h2>Links</h2>
-			<ul>
-				<li><span>GitHub</span><a href="https://github.com/yourname">https://github.com/yourname</a></li>
-				<li><span>X</span><a href="https://x.com/yourname">https://x.com/yourname</a></li>
-				<li><span>Blog</span><a href="https://example.com">https://example.com</a></li>
-			</ul>
-		</section>
-
-		<section class="card timeline">
-			<h2>Timeline</h2>
-			<ol class="timeline-list">
-				<li>
-					<time>2025.04</time>
-					<div>
-						<h3>インターン参加</h3>
-						<p>Web開発チームでフロントエンド実装を担当。</p>
-					</div>
-				</li>
-				<li>
-					<time>2024.10</time>
-					<div>
-						<h3>個人開発</h3>
-						<p>ポートフォリオの刷新とデザイン改善に注力。</p>
-					</div>
-				</li>
-				<li>
-					<time>2023.09</time>
-					<div>
-						<h3>学習開始</h3>
-						<p>HTML/CSS/JavaScriptの基礎から学習をスタート。</p>
-					</div>
-				</li>
-			</ol>
-		</section>
+		<Hero {...hero} links={links} />
+		<Timeline items={timelineItems} />
 	</main>
 </Layout>
 
@@ -59,170 +53,9 @@ import Layout from '../layouts/Layout.astro';
 		gap: 40px;
 	}
 
-	.hero {
-		background: #ffffff;
-		border-radius: 24px;
-		padding: 40px;
-		box-shadow: 0 20px 40px rgba(30, 30, 30, 0.08);
-		border: 1px solid rgba(30, 30, 30, 0.06);
-	}
-
-	.eyebrow {
-		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
-		font-size: 12px;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		margin: 0 0 12px;
-		color: #5a5a5a;
-	}
-
-	.title {
-		font-size: clamp(32px, 6vw, 52px);
-		margin: 0 0 8px;
-	}
-
-	.role {
-		font-size: 18px;
-		margin: 0 0 16px;
-		color: #3f3f3f;
-	}
-
-	.lead {
-		margin: 0;
-		font-size: 16px;
-		line-height: 1.8;
-		color: #2c2c2c;
-	}
-
-	.card {
-		background: #ffffff;
-		border-radius: 20px;
-		padding: 28px 32px;
-		border: 1px solid rgba(30, 30, 30, 0.06);
-		box-shadow: 0 12px 30px rgba(30, 30, 30, 0.06);
-	}
-
-	.card h2 {
-		margin: 0 0 16px;
-		font-size: 18px;
-		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		color: #515151;
-	}
-
-	.card ul {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		display: grid;
-		gap: 12px;
-	}
-
-	.card li {
-		display: grid;
-		grid-template-columns: 90px 1fr;
-		gap: 12px;
-		align-items: center;
-	}
-
-	.card span {
-		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
-		font-size: 12px;
-		letter-spacing: 0.08em;
-		text-transform: uppercase;
-		color: #6a6a6a;
-	}
-
-	.card a {
-		color: #1b4c4c;
-		text-decoration: none;
-		word-break: break-all;
-	}
-
-	.card a:hover {
-		text-decoration: underline;
-	}
-
-	.timeline-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		position: relative;
-		display: grid;
-		gap: 24px;
-	}
-
-	.timeline-list::before {
-		content: '';
-		position: absolute;
-		left: 110px;
-		top: 6px;
-		bottom: 6px;
-		width: 2px;
-		background: linear-gradient(180deg, #c9d4d4 0%, #cfe0d3 100%);
-	}
-
-	.timeline-list li {
-		display: grid;
-		grid-template-columns: 90px 1fr;
-		gap: 20px;
-		align-items: start;
-		position: relative;
-	}
-
-	.timeline-list li::before {
-		content: '';
-		position: absolute;
-		left: 101px;
-		top: 6px;
-		width: 16px;
-		height: 16px;
-		border-radius: 50%;
-		background: #1b4c4c;
-		box-shadow: 0 0 0 6px rgba(27, 76, 76, 0.15);
-	}
-
-	.timeline-list time {
-		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
-		font-size: 12px;
-		letter-spacing: 0.08em;
-		color: #6a6a6a;
-	}
-
-	.timeline-list h3 {
-		margin: 0 0 6px;
-		font-size: 18px;
-	}
-
-	.timeline-list p {
-		margin: 0;
-		font-size: 15px;
-		line-height: 1.7;
-		color: #2f2f2f;
-	}
-
 	@media (max-width: 640px) {
-		.hero,
-		.card {
-			padding: 28px 24px;
-		}
-
-		.card li {
-			grid-template-columns: 1fr;
-			gap: 6px;
-		}
-
-		.timeline-list::before {
-			left: 16px;
-		}
-
-		.timeline-list li {
-			grid-template-columns: 1fr;
-			padding-left: 32px;
-		}
-
-		.timeline-list li::before {
-			left: 8px;
+		.page {
+			padding: 48px 16px 72px;
 		}
 	}
 </style>
