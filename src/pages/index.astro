@@ -1,20 +1,15 @@
 ---
-import { getCollection } from 'astro:content';
+import { getCollection, getEntryBySlug } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Timeline from '../components/Timeline.astro';
 
-const hero = {
-	name: 'k-kanke',
-	role: '横浜国立大学 理工学部 数物・電子情報系学科 電子情報システムEP２年',
-	lead: 'ここに短い自己紹介文を入れます。得意分野や興味を一言で。',
-};
-
-const links = [
-	{ label: 'GitHub', url: 'https://github.com/k-kanke', icon: 'github' },
-	{ label: 'X', url: 'https://x.com/k__kanke', icon: 'x' },
-	{ label: 'Blog', url: 'https://example.com', icon: 'web' },
-];
+const profileEntry = await getEntryBySlug('profile', 'index');
+if (!profileEntry) {
+	throw new Error('profile content not found');
+}
+const { Content: ProfileContent } = await profileEntry.render();
+const profile = profileEntry.data;
 
 const timelineEntries = await getCollection('timeline');
 const sortedEntries = [...timelineEntries].sort((a, b) => b.slug.localeCompare(a.slug));
@@ -31,7 +26,7 @@ const timelineItems = await Promise.all(
 
 <Layout>
 	<main class="page">
-		<Hero {...hero} links={links} />
+		<Hero name={profile.name} role={profile.role} links={profile.links} Content={ProfileContent} />
 		<Timeline items={timelineItems} />
 	</main>
 </Layout>
