@@ -1,0 +1,130 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout>
+	<main class="page">
+		<header class="hero">
+			<p class="eyebrow">Self Introduction</p>
+			<h1 class="title">名前（表示名）</h1>
+			<p class="role">職種・肩書き</p>
+			<p class="lead">ここに短い自己紹介文を入れます。得意分野や興味を一言で。</p>
+		</header>
+
+		<section class="card">
+			<h2>Links</h2>
+			<ul>
+				<li><span>GitHub</span><a href="https://github.com/yourname">https://github.com/yourname</a></li>
+				<li><span>X</span><a href="https://x.com/yourname">https://x.com/yourname</a></li>
+				<li><span>Blog</span><a href="https://example.com">https://example.com</a></li>
+			</ul>
+		</section>
+	</main>
+</Layout>
+
+<style>
+	.page {
+		min-height: 100%;
+		padding: 64px 20px 96px;
+		max-width: 960px;
+		margin: 0 auto;
+		display: grid;
+		gap: 40px;
+	}
+
+	.hero {
+		background: #ffffff;
+		border-radius: 24px;
+		padding: 40px;
+		box-shadow: 0 20px 40px rgba(30, 30, 30, 0.08);
+		border: 1px solid rgba(30, 30, 30, 0.06);
+	}
+
+	.eyebrow {
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		font-size: 12px;
+		letter-spacing: 0.2em;
+		text-transform: uppercase;
+		margin: 0 0 12px;
+		color: #5a5a5a;
+	}
+
+	.title {
+		font-size: clamp(32px, 6vw, 52px);
+		margin: 0 0 8px;
+	}
+
+	.role {
+		font-size: 18px;
+		margin: 0 0 16px;
+		color: #3f3f3f;
+	}
+
+	.lead {
+		margin: 0;
+		font-size: 16px;
+		line-height: 1.8;
+		color: #2c2c2c;
+	}
+
+	.card {
+		background: #ffffff;
+		border-radius: 20px;
+		padding: 28px 32px;
+		border: 1px solid rgba(30, 30, 30, 0.06);
+		box-shadow: 0 12px 30px rgba(30, 30, 30, 0.06);
+	}
+
+	.card h2 {
+		margin: 0 0 16px;
+		font-size: 18px;
+		text-transform: uppercase;
+		letter-spacing: 0.12em;
+		color: #515151;
+	}
+
+	.card ul {
+		list-style: none;
+		margin: 0;
+		padding: 0;
+		display: grid;
+		gap: 12px;
+	}
+
+	.card li {
+		display: grid;
+		grid-template-columns: 90px 1fr;
+		gap: 12px;
+		align-items: center;
+	}
+
+	.card span {
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		font-size: 12px;
+		letter-spacing: 0.08em;
+		text-transform: uppercase;
+		color: #6a6a6a;
+	}
+
+	.card a {
+		color: #1b4c4c;
+		text-decoration: none;
+		word-break: break-all;
+	}
+
+	.card a:hover {
+		text-decoration: underline;
+	}
+
+	@media (max-width: 640px) {
+		.hero,
+		.card {
+			padding: 28px 24px;
+		}
+
+		.card li {
+			grid-template-columns: 1fr;
+			gap: 6px;
+		}
+	}
+</style>
