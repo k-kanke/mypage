@@ -47,7 +47,7 @@ const formatRange = (item) => {
 		padding: 0;
 		position: relative;
 		display: grid;
-		gap: 24px;
+		gap: 32px;
 		--time-col: 120px;
 		--line-x: calc(var(--time-col) + 12px);
 	}
@@ -95,17 +95,33 @@ const formatRange = (item) => {
 	.timeline-list h3 {
 		margin: 0 0 6px;
 		font-size: 16px;
-		font-family: 'Fraunces', 'Noto Serif JP', serif;
-		letter-spacing: 0.01em;
+		font-family: 'IBM Plex Serif', 'Noto Serif JP', serif;
+		letter-spacing: 0.006em;
 	}
 
 	.timeline-list p {
 		margin: 0;
-		font-size: 14px;
-		font-family: 'Fraunces', 'Noto Serif JP', serif;
-		letter-spacing: 0.008em;
+		font-size: 13px;
+		font-family: 'IBM Plex Serif', 'Noto Serif JP', serif;
+		letter-spacing: 0.004em;
 		line-height: 1.7;
 		color: #3f3f3f;
+	}
+
+	.timeline-list blockquote {
+		margin: 6px 0 0;
+		padding: 10px 14px;
+		border-left: 3px solid rgba(27, 76, 76, 0.35);
+		background: rgba(27, 76, 76, 0.06);
+		border-radius: 10px;
+		font-family: 'IBM Plex Serif', 'Noto Serif JP', serif;
+		font-size: 13px;
+		line-height: 1.7;
+		color: #2f2f2f;
+	}
+
+	.timeline-list blockquote p {
+		margin: 0;
 	}
 
 	.timeline-list ul {
@@ -118,8 +134,8 @@ const formatRange = (item) => {
 	.timeline-list ul,
 	.timeline-list li ul li {
 		color: #3f3f3f;
-		font-family: 'Fraunces', 'Noto Serif JP', serif;
-		letter-spacing: 0.008em;
+		font-family: 'IBM Plex Serif', 'Noto Serif JP', serif;
+		letter-spacing: 0.004em;
 	}
 
 	.timeline-list li ul li {
