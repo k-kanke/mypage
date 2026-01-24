@@ -18,6 +18,13 @@ const formatRange = (item) => {
 				<div>
 					<h3>{item.title}</h3>
 					{item.Content ? <item.Content /> : <p>{item.description}</p>}
+					{item.tags?.length ? (
+						<div class="tag-list" role="list">
+							{item.tags.map((tag) => (
+								<span class="tag" role="listitem">{tag}</span>
+							))}
+						</div>
+					) : null}
 				</div>
 			</li>
 		))}
@@ -124,7 +131,7 @@ const formatRange = (item) => {
 		margin: 0;
 	}
 
-	.timeline-list ul {
+	.timeline-list ul:not(.tag-list) {
 		margin: 0;
 		padding-left: 18px;
 		display: grid;
@@ -144,6 +151,24 @@ const formatRange = (item) => {
 
 	.timeline-list li > div {
 		padding-left: 8px;
+	}
+
+	.tag-list {
+		margin: 0 0 8px;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+
+	.tag {
+		font-size: 11px;
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		letter-spacing: 0.05em;
+		padding: 3px 10px;
+		border-radius: 999px;
+		background: #ffffff;
+		border: 1px solid rgba(40, 40, 40, 0.14);
+		color: #4a4a4a;
 	}
 
 	@media (max-width: 640px) {

@@ -1,6 +1,6 @@
 ---
-title: 都立西高校卒業
-from: "2023.03"
-to: ""
+title: Tokyo Metropolitan Nishi High School
+from: "2020.04"
+to: "2023.03"
 ---
 

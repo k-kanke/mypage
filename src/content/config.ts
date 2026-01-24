@@ -6,6 +6,7 @@ const timeline = defineCollection({
 		title: z.string(),
 		from: z.coerce.string(),
 		to: z.coerce.string().optional(),
+		tags: z.array(z.string()).optional(),
 	}),
 });
 
