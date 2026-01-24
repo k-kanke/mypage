@@ -35,8 +35,6 @@ project:
 	'image: /images/projects/project-1.svg' \
 	'imageAlt: サムネイル' \
 	'repoUrl: https://github.com/yourname/project' \
-	'link: https://example.com' \
-	'linkLabel: Live Demo' \
 	'---' \
 	'' \
 	'ここに説明を書く。' \

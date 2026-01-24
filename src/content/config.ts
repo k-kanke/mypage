@@ -33,10 +33,13 @@ const projects = defineCollection({
 		title: z.string(),
 		period: z.coerce.string().optional(),
 		image: z.string().optional(),
+		images: z.array(z.string()).optional(),
 		imageAlt: z.string().optional(),
+		summary: z.string().optional(),
 		link: z.string().url().optional(),
 		linkLabel: z.string().optional(),
 		repoUrl: z.string().url().optional(),
+		tags: z.array(z.string()).optional(),
 	}),
 });
 

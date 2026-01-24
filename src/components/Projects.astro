@@ -1,6 +1,12 @@
 ---
 const { items } = Astro.props;
 
+const getGallery = (project) => {
+	if (project.images?.length) return project.images;
+	if (project.image) return [project.image];
+	return [];
+};
+
 const githubIcon = {
 	viewBox: '0 0 24 24',
 	path:
@@ -12,7 +18,8 @@ const githubIcon = {
 	<h2>Projects</h2>
 	<div class="grid">
 		{items.map((project) => (
-			<article class="project">
+			<article class="project" data-project>
+				<button class="project-open" type="button" aria-label={`${project.title} を開く`} data-open></button>
 				{project.repoUrl ? (
 					<a class="repo-link" href={project.repoUrl} aria-label="GitHub repository">
 						<svg viewBox={githubIcon.viewBox} aria-hidden="true" focusable="false">
@@ -26,17 +33,80 @@ const githubIcon = {
 				) : null}
 				<div class="project-body">
 					<h3>{project.title}</h3>
-					{project.Content ? <project.Content /> : <p>{project.description}</p>}
+					{project.summary ? <p>{project.summary}</p> : project.Content ? <project.Content /> : null}
+					{project.tags?.length ? (
+						<div class="tag-list" role="list">
+							{project.tags.map((tag) => (
+								<span class="tag" role="listitem">{tag}</span>
+							))}
+						</div>
+					) : null}
 					{project.link ? (
 						<a class="project-link" href={project.link}>
 							{project.linkLabel ?? project.link}
 						</a>
 					) : null}
 				</div>
+
+				<dialog class="project-modal" data-modal>
+					<div class="modal-content">
+						<button class="modal-close" type="button" aria-label="閉じる">×</button>
+						<div class="modal-header">
+							<h3>{project.title}</h3>
+							{project.period ? <p class="project-period">{project.period}</p> : null}
+						</div>
+						{getGallery(project).length ? (
+							<div class="modal-gallery" aria-label="Project images">
+								{getGallery(project).map((src) => (
+									<img class="modal-image" src={src} alt={project.title} />
+								))}
+							</div>
+						) : null}
+						<div class="modal-body">
+							{project.Content ? <project.Content /> : project.summary ? <p>{project.summary}</p> : null}
+							{project.tags?.length ? (
+								<div class="tag-list" role="list">
+									{project.tags.map((tag) => (
+										<span class="tag" role="listitem">{tag}</span>
+									))}
+								</div>
+							) : null}
+							<div class="modal-links">
+								{project.link ? <a href={project.link}>{project.linkLabel ?? project.link}</a> : null}
+							</div>
+						</div>
+					</div>
+				</dialog>
 			</article>
 		))}
 	</div>
 </section>
+
+<script>
+	const projects = document.querySelectorAll('[data-project]');
+	projects.forEach((project) => {
+		const dialog = project.querySelector('[data-modal]');
+		const openBtn = project.querySelector('[data-open]');
+		const closeBtn = project.querySelector('.modal-close');
+		if (!dialog || !openBtn || !closeBtn) return;
+
+		openBtn.addEventListener('click', () => dialog.showModal());
+		closeBtn.addEventListener('click', (event) => {
+			event.stopPropagation();
+			dialog.close();
+		});
+		dialog.addEventListener('click', (event) => {
+			if (event.target === dialog) dialog.close();
+		});
+		project.addEventListener('click', (event) => {
+			if (event.target.closest('a')) return;
+			if (event.target.closest('[data-open]')) return;
+			if (event.target.closest('dialog')) return;
+			if (event.target.closest('.modal-close')) return;
+			dialog.showModal();
+		});
+	});
+</script>
 
 <style>
 	.card {
@@ -71,6 +141,18 @@ const githubIcon = {
 		position: relative;
 	}
 
+	.project-open {
+		position: absolute;
+		inset: 0;
+		border: 0;
+		background: transparent;
+		cursor: pointer;
+		z-index: 1;
+		padding: 0;
+		appearance: none;
+		-webkit-appearance: none;
+	}
+
 	.repo-link {
 		position: absolute;
 		top: 12px;
@@ -84,6 +166,7 @@ const githubIcon = {
 		color: #1b4c4c;
 		background: rgba(27, 76, 76, 0.1);
 		transition: transform 0.15s ease, background 0.15s ease;
+		z-index: 2;
 	}
 
 	.repo-link:hover {
@@ -103,10 +186,13 @@ const githubIcon = {
 
 	.project-image {
 		width: 100%;
-		height: 160px;
+		aspect-ratio: 16 / 9;
+		height: auto;
 		object-fit: cover;
 		border-radius: 12px;
 		border: 1px solid rgba(30, 30, 30, 0.08);
+		position: relative;
+		z-index: 0;
 	}
 
 	.project-body {
@@ -120,6 +206,11 @@ const githubIcon = {
 		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
 		letter-spacing: 0.08em;
 		color: #6a6a6a;
+		line-height: 1.2;
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		min-height: 1.2em;
 	}
 
 	.project h3 {
@@ -155,13 +246,117 @@ const githubIcon = {
 		color: #3f3f3f;
 	}
 
+	.tag-list {
+		margin: 0;
+		display: flex;
+		flex-wrap: wrap;
+		gap: 6px;
+	}
+
+	.tag {
+		font-size: 11px;
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		letter-spacing: 0.05em;
+		padding: 3px 10px;
+		border-radius: 999px;
+		background: #ffffff;
+		border: 1px solid rgba(40, 40, 40, 0.14);
+		color: #4a4a4a;
+	}
+
 	.project-link {
+		font-size: 12px;
+		color: #1b4c4c;
+		text-decoration: none;
+		position: relative;
+		z-index: 2;
+	}
+
+	.project-link:hover {
+		text-decoration: underline;
+	}
+
+	.project-modal {
+		border: none;
+		padding: 0;
+		width: min(720px, 92vw);
+		border-radius: 20px;
+		background: #ffffff;
+		box-shadow: 0 30px 80px rgba(20, 20, 20, 0.2);
+	}
+
+	.project-modal::backdrop {
+		background: rgba(16, 16, 16, 0.5);
+	}
+
+	.modal-content {
+		position: relative;
+		padding: 22px 24px 24px;
+		display: grid;
+		gap: 16px;
+	}
+
+	.modal-close {
+		position: absolute;
+		top: 12px;
+		right: 12px;
+		width: 28px;
+		height: 28px;
+		border-radius: 999px;
+		border: none;
+		background: rgba(27, 76, 76, 0.1);
+		color: #1b4c4c;
+		cursor: pointer;
+		font-size: 18px;
+	}
+
+	.modal-header h3 {
+		margin: 0 0 6px;
+		font-size: 18px;
+	}
+
+	.modal-gallery {
+		display: flex;
+		align-items: center;
+		gap: 12px;
+		overflow-x: auto;
+		scroll-snap-type: x proximity;
+		padding: 0 4px 6px 0;
+	}
+
+	.modal-image {
+		height: 360px;
+		width: auto;
+		max-width: 80vw;
+		object-fit: contain;
+		background: transparent;
+		border-radius: 14px;
+		border: 1px solid rgba(30, 30, 30, 0.08);
+		scroll-snap-align: start;
+	}
+
+	.modal-gallery:has(.modal-image:only-child) {
+		justify-content: center;
+	}
+
+	.modal-body {
+		display: grid;
+		gap: 10px;
+	}
+
+	.modal-links {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 12px;
+	}
+
+	.modal-links a {
 		font-size: 12px;
 		color: #1b4c4c;
 		text-decoration: none;
 	}
 
-	.project-link:hover {
+	.modal-links a:hover {
 		text-decoration: underline;
 	}
 
