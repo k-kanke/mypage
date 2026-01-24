@@ -26,4 +26,17 @@ const profile = defineCollection({
 	}),
 });
 
-export const collections = { timeline, profile };
+const projects = defineCollection({
+	type: 'content',
+	schema: z.object({
+		title: z.string(),
+		period: z.coerce.string().optional(),
+		image: z.string().optional(),
+		imageAlt: z.string().optional(),
+		link: z.string().url().optional(),
+		linkLabel: z.string().optional(),
+		repoUrl: z.string().url().optional(),
+	}),
+});
+
+export const collections = { timeline, profile, projects };

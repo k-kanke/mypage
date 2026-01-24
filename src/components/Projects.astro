@@ -26,7 +26,7 @@ const githubIcon = {
 				) : null}
 				<div class="project-body">
 					<h3>{project.title}</h3>
-					<p>{project.description}</p>
+					{project.Content ? <project.Content /> : <p>{project.description}</p>}
 					{project.link ? (
 						<a class="project-link" href={project.link}>
 							{project.linkLabel ?? project.link}
@@ -127,10 +127,29 @@ const githubIcon = {
 		font-size: 15px;
 		font-family: 'IBM Plex Sans', 'Noto Sans JP', sans-serif;
 		letter-spacing: 0.01em;
+		font-weight: 400;
+		color: #3f3f3f;
 	}
 
 	.project p {
 		margin: 0 0 10px;
+		font-size: 12px;
+		line-height: 1.7;
+		color: #3f3f3f;
+	}
+
+	.project :global(p) {
+		margin: 0 0 10px;
+		font-size: 12px;
+		line-height: 1.7;
+		color: #3f3f3f;
+	}
+
+	.project :global(ul) {
+		margin: 0 0 10px;
+		padding-left: 18px;
+		display: grid;
+		gap: 6px;
 		font-size: 12px;
 		line-height: 1.7;
 		color: #3f3f3f;
