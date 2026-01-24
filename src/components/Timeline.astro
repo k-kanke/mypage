@@ -77,6 +77,10 @@ const formatRange = (item) => {
 		position: relative;
 	}
 
+	.timeline-list li > time {
+		padding-top: 6px;
+	}
+
 	.timeline-list li::before {
 		content: '';
 		position: absolute;
@@ -96,7 +100,8 @@ const formatRange = (item) => {
 		color: #6a6a6a;
 		display: block;
 		text-align: right;
-		padding-right: 24px;
+		padding-right: 16px;
+		min-width: 84px;
 	}
 
 	.timeline-list h3 {
@@ -187,6 +192,13 @@ const formatRange = (item) => {
 
 		.timeline-list li::before {
 			left: 8px;
+		}
+
+		.timeline-list time {
+			text-align: left;
+			padding-right: 0;
+			width: auto;
+			justify-self: start;
 		}
 	}
 </style>
