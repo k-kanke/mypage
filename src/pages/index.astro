@@ -2,6 +2,7 @@
 import { getCollection, getEntryBySlug } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
+import Projects from '../components/Projects.astro';
 import Timeline from '../components/Timeline.astro';
 
 const profileEntry = await getEntryBySlug('profile', 'index');
@@ -22,12 +23,52 @@ const timelineItems = await Promise.all(
 		};
 	}),
 );
+
+const projects = [
+	{
+		period: '2024.11 - 2025.01',
+		title: 'プロジェクト名 1',
+		description: '一言説明。技術や目的を短く。',
+		image: '/images/projects/project-1.svg',
+		imageAlt: 'プロジェクト名 1 のサムネイル',
+		repoUrl: 'https://github.com/yourname/project-1',
+		link: 'https://example.com',
+		linkLabel: 'Live Demo',
+	},
+	{
+		period: '2024.08',
+		title: 'プロジェクト名 2',
+		description: '二列表示で並ぶカード形式。',
+		image: '/images/projects/project-2.svg',
+		imageAlt: 'プロジェクト名 2 のサムネイル',
+		repoUrl: 'https://github.com/yourname/project-2',
+		link: 'https://github.com/yourname',
+		linkLabel: 'Repository',
+	},
+	{
+		period: '2024.05',
+		title: 'プロジェクト名 3',
+		description: '必要ならリンク無しでもOK。',
+		image: '/images/projects/project-3.svg',
+		imageAlt: 'プロジェクト名 3 のサムネイル',
+		repoUrl: 'https://github.com/yourname/project-3',
+	},
+	{
+		period: '2023.12',
+		title: 'プロジェクト名 4',
+		description: 'あとから自由に差し替え。',
+		image: '/images/projects/project-4.svg',
+		imageAlt: 'プロジェクト名 4 のサムネイル',
+		repoUrl: 'https://github.com/yourname/project-4',
+	},
+];
 ---
 
 <Layout>
 	<main class="page">
 		<Hero name={profile.name} role={profile.role} links={profile.links} Content={ProfileContent} />
 		<Timeline items={timelineItems} />
+		<Projects items={projects} />
 	</main>
 </Layout>
 
