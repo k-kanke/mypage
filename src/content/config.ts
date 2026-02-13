@@ -43,4 +43,16 @@ const projects = defineCollection({
 	}),
 });
 
-export const collections = { timeline, profile, projects };
+const articles = defineCollection({
+	type: 'content',
+	schema: z.object({
+		title: z.string(),
+		publishedAt: z.coerce.date(),
+		url: z.string().url(),
+		draft: z.boolean().default(false),
+		summary: z.string().optional(),
+		tags: z.array(z.string()).optional(),
+	}),
+});
+
+export const collections = { timeline, profile, projects, articles };

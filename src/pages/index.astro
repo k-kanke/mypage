@@ -3,6 +3,7 @@ import { getCollection, getEntryBySlug } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import Hero from '../components/Hero.astro';
 import Projects from '../components/Projects.astro';
+import Articles from '../components/Articles.astro';
 import Timeline from '../components/Timeline.astro';
 
 const profileEntry = await getEntryBySlug('profile', 'index');
@@ -35,6 +36,25 @@ const projects = await Promise.all(
 		};
 	}),
 );
+
+const articleFiles = import.meta.glob('../content/articles/*.md');
+let articles = [];
+
+if (Object.keys(articleFiles).length > 0) {
+	const articleEntries = await getCollection('articles', ({ data }) => !data.draft);
+	const sortedArticles = [...articleEntries].sort(
+		(a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+	);
+	articles = await Promise.all(
+		sortedArticles.map(async (entry) => {
+			const { Content } = await entry.render();
+			return {
+				...entry.data,
+				Content,
+			};
+		}),
+	);
+}
 ---
 
 <Layout>
@@ -42,6 +62,7 @@ const projects = await Promise.all(
 		<Hero name={profile.name} role={profile.role} links={profile.links} Content={ProfileContent} />
 		<Timeline items={timelineItems} />
 		<Projects items={projects} />
+		<Articles items={articles} />
 	</main>
 </Layout>
 
