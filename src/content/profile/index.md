@@ -8,9 +8,6 @@ links:
   - label: X
     url: https://x.com/yourname
     icon: x
-  - label: Blog
-    url: https://example.com
-    icon: web
 ---
 
 バックエンドエンジニアを目指しています。サーバーサイドからインフラまで興味があります。  
