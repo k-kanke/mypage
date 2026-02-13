@@ -19,7 +19,7 @@ const formatDate = (date) =>
 					<h3>
 						<a href={article.url} target="_blank" rel="noreferrer">{article.title}</a>
 					</h3>
-					{article.summary ? <p>{article.summary}</p> : article.Content ? <article.Content /> : null}
+					{article.Content ? <article.Content /> : null}
 					{article.tags?.length ? (
 						<div class="tag-list" role="list">
 							{article.tags.map((tag) => (

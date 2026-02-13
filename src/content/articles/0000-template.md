@@ -1,11 +1,9 @@
 ---
-title: 記事タイトル
-publishedAt: 2000-01-01
-url: https://example.com
-draft: true
-summary: 記事の概要
+title: KubeSploit でシミュレートできる攻撃とその防御策
+publishedAt: 2026-02-13
+url: https://sreake.com/blog/kubesploit-threat-simulation-and-defense-measures/
+draft: false
 tags:
-  - Astro
+  - Kubernetes
+  - KubeSploit
 ---
-
-この記事は下書きテンプレートです。`draft: false` に変更すると公開されます。

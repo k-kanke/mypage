@@ -50,7 +50,6 @@ const articles = defineCollection({
 		publishedAt: z.coerce.date(),
 		url: z.string().url(),
 		draft: z.boolean().default(false),
-		summary: z.string().optional(),
 		tags: z.array(z.string()).optional(),
 	}),
 });
