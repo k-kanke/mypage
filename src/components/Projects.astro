@@ -35,12 +35,17 @@ const githubIcon = {
 					aria-label={labels.openProjectAriaLabel(project.title)}
 					data-open
 				></button>
-				{project.repoUrl ? (
-					<a class="repo-link" href={project.repoUrl} aria-label={labels.repoAriaLabel}>
-						<svg viewBox={githubIcon.viewBox} aria-hidden="true" focusable="false">
-							<path d={githubIcon.path} />
-						</svg>
-					</a>
+				{project.projectTag || project.repoUrl ? (
+					<div class="project-meta">
+						{project.projectTag ? <span class="project-category">{project.projectTag}</span> : null}
+						{project.repoUrl ? (
+							<a class="repo-link" href={project.repoUrl} aria-label={labels.repoAriaLabel}>
+								<svg viewBox={githubIcon.viewBox} aria-hidden="true" focusable="false">
+									<path d={githubIcon.path} />
+								</svg>
+							</a>
+						) : null}
+					</div>
 				) : null}
 				{project.period ? <p class="project-period">{project.period}</p> : null}
 				{project.image ? (
@@ -172,10 +177,31 @@ const githubIcon = {
 		-webkit-appearance: none;
 	}
 
-	.repo-link {
+	.project-meta {
 		position: absolute;
 		top: 12px;
 		right: 12px;
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		z-index: 2;
+	}
+
+	.project-category {
+		display: inline-flex;
+		align-items: center;
+		padding: 3px 10px;
+		border-radius: 999px;
+		font-size: 10px;
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		letter-spacing: 0.06em;
+		color: #3d4a3d;
+		background: rgba(207, 224, 211, 0.7);
+		border: 1px solid rgba(61, 74, 61, 0.16);
+		line-height: 1.1;
+	}
+
+	.repo-link {
 		width: 26px;
 		height: 26px;
 		border-radius: 999px;
@@ -185,7 +211,6 @@ const githubIcon = {
 		color: #1b4c4c;
 		background: rgba(27, 76, 76, 0.1);
 		transition: transform 0.15s ease, background 0.15s ease;
-		z-index: 2;
 	}
 
 	.repo-link:hover {

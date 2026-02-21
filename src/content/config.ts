@@ -34,7 +34,18 @@ const projectsSchema = z.object({
 	link: z.string().url().optional(),
 	linkLabel: z.string().optional(),
 	repoUrl: z.string().url().optional(),
-	tags: z.array(z.string()).optional(),
+	projectTag: z.string().optional(),
+	tags: z
+		.union([z.array(z.string()), z.string()])
+		.optional()
+		.transform((value) => {
+			if (!value) return undefined;
+			if (Array.isArray(value)) return value;
+			return value
+				.split(',')
+				.map((tag) => tag.trim())
+				.filter(Boolean);
+		}),
 });
 
 const articlesSchema = z.object({
