@@ -1,5 +1,5 @@
 ---
-const { items } = Astro.props;
+const { items, title } = Astro.props;
 
 const formatRange = (item) => {
 	if (item.to && item.to !== '') {
@@ -10,7 +10,7 @@ const formatRange = (item) => {
 ---
 
 <section class="card timeline">
-	<h2>Timeline</h2>
+	<h2>{title}</h2>
 	<ol class="timeline-list">
 		{items.map((item) => (
 			<li>

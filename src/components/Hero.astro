@@ -1,5 +1,5 @@
 ---
-const { name, role, links = [], Content } = Astro.props;
+const { name, role, links = [], Content, labels } = Astro.props;
 
 const icons = {
 	github: {
@@ -21,10 +21,10 @@ const icons = {
 ---
 
 <header class="hero">
-	<p class="eyebrow">Self Introduction</p>
+	<p class="eyebrow">{labels.eyebrow}</p>
 	<div class="title-row">
 		<h1 class="title">{name}</h1>
-		<nav class="icon-links" aria-label="Links">
+		<nav class="icon-links" aria-label={labels.linksAriaLabel}>
 			{links.map((item) =>
 				icons[item.icon] ? (
 					<a class="icon-link" href={item.url} aria-label={item.label}>

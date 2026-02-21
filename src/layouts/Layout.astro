@@ -1,15 +1,26 @@
+---
+const { lang, meta, switcherLabel, languageName } = Astro.props;
+---
+
 <!doctype html>
-<html lang="ja">
+<html lang={lang}>
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="icon" href="/favicon.ico" />
 		<meta name="generator" content={Astro.generator} />
-		<meta name="description" content="シンプルな自己紹介サイトのデモ" />
-		<title>自己紹介 | デモ</title>
+		<meta name="description" content={meta.description} />
+		<title>{meta.title}</title>
 	</head>
 	<body>
+		<header class="site-header">
+			<nav class="language-switcher" aria-label={switcherLabel}>
+				<a href="../ja/" aria-current={lang === 'ja' ? 'page' : undefined}>{languageName.ja}</a>
+				<span>/</span>
+				<a href="../en/" aria-current={lang === 'en' ? 'page' : undefined}>{languageName.en}</a>
+			</nav>
+		</header>
 		<slot />
 	</body>
 </html>
@@ -35,8 +46,45 @@
 		background: radial-gradient(1200px 600px at 10% 10%, #fff4e6 0%, #fffaf2 35%, #f5fbff 70%, #f6fff2 100%);
 	}
 
+	.site-header {
+		max-width: 960px;
+		margin: 0 auto;
+		padding: 20px 20px 0;
+		display: flex;
+		justify-content: flex-end;
+	}
+
+	.language-switcher {
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		font-size: 12px;
+		letter-spacing: 0.04em;
+	}
+
+	.language-switcher a {
+		color: #2f2f2f;
+		text-decoration: none;
+	}
+
+	.language-switcher a[aria-current='page'] {
+		font-weight: 600;
+		text-decoration: underline;
+	}
+
+	.language-switcher span {
+		color: #7a7a7a;
+	}
+
 	:global(.fancy-title) {
 		font-family: 'IBM Plex Serif', 'Noto Serif JP', serif;
 		letter-spacing: 0.006em;
+	}
+
+	@media (max-width: 640px) {
+		.site-header {
+			padding: 16px 16px 0;
+		}
 	}
 </style>

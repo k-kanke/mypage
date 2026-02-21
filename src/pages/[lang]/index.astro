@@ -1,0 +1,107 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '../../layouts/Layout.astro';
+import Hero from '../../components/Hero.astro';
+import Projects from '../../components/Projects.astro';
+import Articles from '../../components/Articles.astro';
+import Timeline from '../../components/Timeline.astro';
+import { SUPPORTED_LOCALES, type Locale } from '../../i18n/config';
+import { messages } from '../../i18n/messages';
+
+export function getStaticPaths() {
+	return SUPPORTED_LOCALES.map((lang) => ({ params: { lang } }));
+}
+
+const lang = Astro.params.lang as Locale;
+const message = messages[lang];
+
+const collectionKey = {
+	profile: lang === 'en' ? 'profile_en' : 'profile',
+	timeline: lang === 'en' ? 'timeline_en' : 'timeline',
+	projects: lang === 'en' ? 'projects_en' : 'projects',
+	articles: lang === 'en' ? 'articles_en' : 'articles',
+} as const;
+
+const profileEntries = await getCollection(collectionKey.profile);
+if (profileEntries.length === 0) {
+	throw new Error('profile content not found');
+}
+const profileEntry = profileEntries[0];
+const { Content: ProfileContent } = await profileEntry.render();
+const profile = profileEntry.data;
+
+const timelineEntries = await getCollection(collectionKey.timeline);
+const sortedTimelineEntries = [...timelineEntries].sort((a, b) => b.slug.localeCompare(a.slug));
+const timelineItems = await Promise.all(
+	sortedTimelineEntries.map(async (entry) => {
+		const { Content } = await entry.render();
+		return {
+			...entry.data,
+			Content,
+		};
+	}),
+);
+
+const projectEntries = await getCollection(collectionKey.projects);
+const sortedProjectEntries = [...projectEntries].sort((a, b) => b.slug.localeCompare(a.slug));
+const projects = await Promise.all(
+	sortedProjectEntries.map(async (entry) => {
+		const { Content } = await entry.render();
+		return {
+			...entry.data,
+			Content,
+		};
+	}),
+);
+
+const articleEntries = await getCollection(collectionKey.articles, ({ data }) => !data.draft);
+const sortedArticles = [...articleEntries].sort(
+	(a, b) => b.data.publishedAt.getTime() - a.data.publishedAt.getTime(),
+);
+const articles = await Promise.all(
+	sortedArticles.map(async (entry) => {
+		const { Content } = await entry.render();
+		return {
+			...entry.data,
+			Content,
+		};
+	}),
+);
+---
+
+<Layout
+	lang={lang}
+	meta={message.meta}
+	switcherLabel={message.layout.languageSwitcherLabel}
+	languageName={message.layout.languageName}
+>
+	<main class="page">
+		<Hero
+			name={profile.name}
+			role={profile.role}
+			links={profile.links}
+			Content={ProfileContent}
+			labels={message.hero}
+		/>
+		<Timeline items={timelineItems} title={message.timeline.title} />
+		<Projects items={projects} labels={message.projects} />
+		<Articles items={articles} locale={lang} labels={message.articles} />
+	</main>
+</Layout>
+
+<style>
+	.page {
+		min-height: 100%;
+		padding: 24px 20px 96px;
+		max-width: 960px;
+		margin: 0 auto;
+		display: grid;
+		gap: 40px;
+	}
+
+	@media (max-width: 640px) {
+		.page {
+			padding: 20px 16px 72px;
+		}
+	}
+</style>

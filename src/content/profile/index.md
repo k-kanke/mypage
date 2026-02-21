@@ -1,12 +1,13 @@
 ---
+lang: ja
 name: k-kanke
 role: 横浜国立大学 理工学部　数物・電子情報系学科　電子情報システムEP２年
 links:
   - label: GitHub
-    url: https://github.com/yourname
+    url: https://github.com/k-kanke
     icon: github
   - label: X
-    url: https://x.com/yourname
+    url: https://x.com/k__kanke
     icon: x
 ---
 

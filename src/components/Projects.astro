@@ -1,9 +1,16 @@
 ---
-const { items } = Astro.props;
+const { items, labels } = Astro.props;
+
+const toAssetPath = (path) => {
+	if (!path) return path;
+	if (/^(https?:)?\/\//.test(path)) return path;
+	const normalized = path.startsWith('/') ? path.slice(1) : path;
+	return `${import.meta.env.BASE_URL}${normalized}`;
+};
 
 const getGallery = (project) => {
-	if (project.images?.length) return project.images;
-	if (project.image) return [project.image];
+	if (project.images?.length) return project.images.map(toAssetPath);
+	if (project.image) return [toAssetPath(project.image)];
 	return [];
 };
 
@@ -15,13 +22,18 @@ const githubIcon = {
 ---
 
 <section class="card projects">
-	<h2>Projects</h2>
+	<h2>{labels.title}</h2>
 	<div class="grid">
 		{items.map((project) => (
 			<article class="project" data-project>
-				<button class="project-open" type="button" aria-label={`${project.title} を開く`} data-open></button>
+				<button
+					class="project-open"
+					type="button"
+					aria-label={labels.openProjectAriaLabel(project.title)}
+					data-open
+				></button>
 				{project.repoUrl ? (
-					<a class="repo-link" href={project.repoUrl} aria-label="GitHub repository">
+					<a class="repo-link" href={project.repoUrl} aria-label={labels.repoAriaLabel}>
 						<svg viewBox={githubIcon.viewBox} aria-hidden="true" focusable="false">
 							<path d={githubIcon.path} />
 						</svg>
@@ -29,7 +41,11 @@ const githubIcon = {
 				) : null}
 				{project.period ? <p class="project-period">{project.period}</p> : null}
 				{project.image ? (
-					<img class="project-image" src={project.image} alt={project.imageAlt ?? project.title} />
+					<img
+						class="project-image"
+						src={toAssetPath(project.image)}
+						alt={project.imageAlt ?? project.title}
+					/>
 				) : null}
 				<div class="project-body">
 					<h3>{project.title}</h3>
@@ -50,13 +66,13 @@ const githubIcon = {
 
 				<dialog class="project-modal" data-modal>
 					<div class="modal-content">
-						<button class="modal-close" type="button" aria-label="閉じる">×</button>
+						<button class="modal-close" type="button" aria-label={labels.closeAriaLabel}>×</button>
 						<div class="modal-header">
 							<h3>{project.title}</h3>
 							{project.period ? <p class="project-period">{project.period}</p> : null}
 						</div>
 						{getGallery(project).length ? (
-							<div class="modal-gallery" aria-label="Project images">
+							<div class="modal-gallery" aria-label={labels.galleryAriaLabel}>
 								{getGallery(project).map((src) => (
 									<img class="modal-image" src={src} alt={project.title} />
 								))}

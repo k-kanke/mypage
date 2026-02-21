@@ -1,8 +1,8 @@
 ---
-const { items } = Astro.props;
+const { items, locale, labels } = Astro.props;
 
 const formatDate = (date) =>
-	new Intl.DateTimeFormat('ja-JP', {
+	new Intl.DateTimeFormat(locale === 'en' ? 'en-US' : 'ja-JP', {
 		year: 'numeric',
 		month: '2-digit',
 		day: '2-digit',
@@ -10,7 +10,7 @@ const formatDate = (date) =>
 ---
 
 <section class="card articles">
-	<h2>Articles</h2>
+	<h2>{labels.title}</h2>
 	{items.length ? (
 		<div class="list">
 			{items.map((article) => (
@@ -31,7 +31,7 @@ const formatDate = (date) =>
 			))}
 		</div>
 	) : (
-		<p class="empty">`src/content/articles` に記事を追加するとここに表示されます。</p>
+		<p class="empty">{labels.empty}</p>
 	)}
 </section>
 
