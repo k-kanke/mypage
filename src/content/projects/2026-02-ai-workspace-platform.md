@@ -3,6 +3,7 @@ lang: ja
 title: AI Workspace Platform
 period: "2026.02 - present"
 image: images/projects/IMG_AI_Workspace.png
+repoUrl: https://github.com/k-kanke/ai-workspace-platform
 projectTag: 個人開発
 summary: 重いLLM処理を非同期化し、SSEでリアルタイム配信するAI Workspace（開発中）。
 tags:
