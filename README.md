@@ -1,7 +1,7 @@
 # mypage
 
 ポートフォリオサイト:
-https://k-kanke.github.io/mypage/
+https://k-kanke.github.io/mypage/ja/
 
 
 
