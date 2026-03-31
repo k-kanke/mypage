@@ -1,0 +1,224 @@
+---
+type TechPoint = {
+	name: string;
+	iconSlug: string;
+	iconColor: string;
+	years: number;
+	recencyLevel: 1 | 2 | 3;
+	detail: string;
+};
+
+type Labels = {
+	title: string;
+	description: string;
+	xAxisLabel: string;
+	yAxisLabel: string;
+	recency: {
+		active: string;
+		recent: string;
+		past: string;
+	};
+};
+
+const { labels, items = [] } = Astro.props as { labels: Labels; items: TechPoint[] };
+
+const xMax = 5;
+const yPosition = {
+	1: 84,
+	2: 50,
+	3: 16,
+} as const;
+---
+
+<section class="tech-map" aria-labelledby="tech-map-title">
+	<div class="heading">
+		<h2 id="tech-map-title" class="fancy-title">{labels.title}</h2>
+		<p>{labels.description}</p>
+	</div>
+
+	<div class="chart-wrap">
+		<div class="y-label">{labels.yAxisLabel}</div>
+		<div class="chart" role="img" aria-label={labels.description}>
+			<div class="grid-line y-top"></div>
+			<div class="grid-line y-mid"></div>
+			<div class="grid-line y-bottom"></div>
+			<div class="y-text y-top-text">{labels.recency.active}</div>
+			<div class="y-text y-mid-text">{labels.recency.recent}</div>
+			<div class="y-text y-bottom-text">{labels.recency.past}</div>
+			{
+				items.map((item) => (
+					<div
+						class="point"
+						style={`left: ${(item.years / xMax) * 100}%; top: ${yPosition[item.recencyLevel]}%;`}
+						title={`${item.name} / ${item.years}y / ${item.detail}`}
+					>
+						<img
+							src={`https://cdn.simpleicons.org/${item.iconSlug}/${item.iconColor}`}
+							alt={item.name}
+							loading="lazy"
+							width="18"
+							height="18"
+						/>
+						<span>{item.name}</span>
+					</div>
+				))
+			}
+		</div>
+		<div class="x-axis">
+			<span>0</span>
+			<span>1</span>
+			<span>2</span>
+			<span>3</span>
+			<span>4</span>
+			<span>5</span>
+		</div>
+		<div class="x-label">{labels.xAxisLabel}</div>
+	</div>
+</section>
+
+<style>
+	.tech-map {
+		background: #ffffff;
+		border-radius: 24px;
+		padding: 32px;
+		box-shadow: 0 20px 40px rgba(30, 30, 30, 0.08);
+		border: 1px solid rgba(30, 30, 30, 0.06);
+	}
+
+	.heading h2 {
+		font-size: clamp(24px, 4vw, 34px);
+		margin: 0;
+	}
+
+	.heading p {
+		margin: 10px 0 0;
+		color: #3f3f3f;
+		line-height: 1.7;
+	}
+
+	.chart-wrap {
+		margin-top: 24px;
+		position: relative;
+		padding-left: 58px;
+	}
+
+	.y-label {
+		position: absolute;
+		left: 0;
+		top: 48%;
+		transform: rotate(-90deg) translateX(-50%);
+		transform-origin: left top;
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		font-size: 12px;
+		color: #5a5a5a;
+	}
+
+	.chart {
+		position: relative;
+		height: 300px;
+		border-radius: 14px;
+		background: linear-gradient(150deg, #f8fcfb 0%, #f6f9ff 55%, #fffaf2 100%);
+		border: 1px solid rgba(30, 30, 30, 0.08);
+		overflow: hidden;
+	}
+
+	.grid-line {
+		position: absolute;
+		left: 0;
+		right: 0;
+		height: 1px;
+		background: rgba(30, 30, 30, 0.12);
+	}
+
+	.y-top {
+		top: 16%;
+	}
+
+	.y-mid {
+		top: 50%;
+	}
+
+	.y-bottom {
+		top: 84%;
+	}
+
+	.y-text {
+		position: absolute;
+		left: 10px;
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		font-size: 11px;
+		color: #5a5a5a;
+	}
+
+	.y-top-text {
+		top: calc(16% - 14px);
+	}
+
+	.y-mid-text {
+		top: calc(50% - 14px);
+	}
+
+	.y-bottom-text {
+		top: calc(84% - 14px);
+	}
+
+	.point {
+		position: absolute;
+		transform: translate(-50%, -50%);
+		display: inline-flex;
+		align-items: center;
+		gap: 8px;
+		padding: 8px 10px;
+		border-radius: 999px;
+		background: rgba(255, 255, 255, 0.96);
+		border: 1px solid rgba(30, 30, 30, 0.14);
+		box-shadow: 0 8px 18px rgba(16, 32, 32, 0.12);
+		font-size: 13px;
+		font-weight: 600;
+	}
+
+	.point img {
+		display: block;
+	}
+
+	.x-axis {
+		margin-top: 10px;
+		display: grid;
+		grid-template-columns: repeat(6, 1fr);
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		font-size: 12px;
+		color: #5a5a5a;
+	}
+
+	.x-axis span {
+		text-align: center;
+	}
+
+	.x-label {
+		margin-top: 8px;
+		text-align: center;
+		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
+		font-size: 12px;
+		color: #5a5a5a;
+	}
+
+	@media (max-width: 640px) {
+		.tech-map {
+			padding: 24px 18px;
+		}
+
+		.chart-wrap {
+			padding-left: 48px;
+		}
+
+		.chart {
+			height: 270px;
+		}
+
+		.point {
+			padding: 7px 9px;
+			font-size: 12px;
+			gap: 6px;
+		}
+	}
+</style>
