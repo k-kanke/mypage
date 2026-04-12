@@ -1,7 +1,7 @@
 ---
 lang: en
 name: k-kanke
-role: Sophomore, Department of Information Engineering, Yokohama National University
+role: Junior, Department of Information Engineering, Yokohama National University
 links:
   - label: GitHub
     url: https://github.com/k-kanke
