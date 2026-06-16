@@ -13,6 +13,17 @@ export type Messages = {
 		eyebrow: string;
 		linksAriaLabel: string;
 	};
+	techMap: {
+		title: string;
+		description: string;
+		xAxisLabel: string;
+		yAxisLabel: string;
+		recency: {
+			active: string;
+			recent: string;
+			past: string;
+		};
+	};
 	timeline: {
 		title: string;
 	};
@@ -46,6 +57,17 @@ export const messages: Record<Locale, Messages> = {
 			eyebrow: 'Self Introduction',
 			linksAriaLabel: 'リンク',
 		},
+		techMap: {
+			title: 'Tech Position Map',
+			description: '実務と個人開発の履歴ベースで、経験年数と直近利用を可視化しています。',
+			xAxisLabel: '経験年数 (年)',
+			yAxisLabel: '直近利用',
+			recency: {
+				active: '現在',
+				recent: '最近',
+				past: '過去',
+			},
+		},
 		timeline: {
 			title: 'Timeline',
 		},
@@ -76,6 +98,17 @@ export const messages: Record<Locale, Messages> = {
 		hero: {
 			eyebrow: 'Self Introduction',
 			linksAriaLabel: 'Links',
+		},
+		techMap: {
+			title: 'Tech Position Map',
+			description: 'A history-based map using years of experience and recency of use.',
+			xAxisLabel: 'Years of Experience',
+			yAxisLabel: 'Recency',
+			recency: {
+				active: 'Active',
+				recent: 'Recent',
+				past: 'Past',
+			},
 		},
 		timeline: {
 			title: 'Timeline',

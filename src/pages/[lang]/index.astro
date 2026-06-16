@@ -2,6 +2,7 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
+import TechMap from '../../components/TechMap.astro';
 import Projects from '../../components/Projects.astro';
 import Articles from '../../components/Articles.astro';
 import Timeline from '../../components/Timeline.astro';
@@ -67,6 +68,73 @@ const articles = await Promise.all(
 		};
 	}),
 );
+
+const techMapItems = [
+	{
+		name: 'Go',
+		iconSlug: 'go',
+		iconColor: '00ADD8',
+		years: 1.0,
+		recencyLevel: 3,
+		detail: lang === 'en' ? 'Main backend language' : 'バックエンドの主軸',
+	},
+	{
+		name: 'TypeScript',
+		iconSlug: 'typescript',
+		iconColor: '3178C6',
+		years: 2.4,
+		recencyLevel: 3,
+		detail: lang === 'en' ? 'Web app development' : 'Webアプリ開発で活用',
+	},
+	{
+		name: 'React',
+		iconSlug: 'react',
+		iconColor: '61DAFB',
+		years: 1.0,
+		recencyLevel: 3,
+		detail: lang === 'en' ? 'Frontend for hackathons and apps' : 'ハッカソンや個人開発のUI',
+	},
+	{
+		name: 'PostgreSQL',
+		iconSlug: 'postgresql',
+		iconColor: '4169E1',
+		years: 1.6,
+		recencyLevel: 3,
+		detail: lang === 'en' ? 'SSE and LISTEN/NOTIFY architecture' : 'SSE連携のDB設計',
+	},
+	{
+		name: 'AWS',
+		iconSlug: 'amazonwebservices',
+		iconColor: 'FF9900',
+		years: 0.5,
+		recencyLevel: 2,
+		detail: lang === 'en' ? 'SQS based async processing' : 'SQSを使った非同期処理',
+	},
+	{
+		name: 'Docker',
+		iconSlug: 'docker',
+		iconColor: '2496ED',
+		years: 1.3,
+		recencyLevel: 2,
+		detail: lang === 'en' ? 'Used in local/prod environments' : '開発・実行環境の共通化',
+	},
+	{
+		name: 'FastAPI',
+		iconSlug: 'fastapi',
+		iconColor: '009688',
+		years: 0.9,
+		recencyLevel: 2,
+		detail: lang === 'en' ? 'Hackathon API implementation' : 'ハッカソンでAPI実装',
+	},
+	{
+		name: 'Google Cloud',
+		iconSlug: 'googlecloud',
+		iconColor: '4285F4',
+		years: 0.8,
+		recencyLevel: 1,
+		detail: lang === 'en' ? 'Cloud Run and Vertex AI projects' : 'Cloud Run / Vertex AI で利用',
+	},
+] as const;
 ---
 
 <Layout
@@ -83,6 +151,7 @@ const articles = await Promise.all(
 			Content={ProfileContent}
 			labels={message.hero}
 		/>
+		<TechMap labels={message.techMap} items={techMapItems} />
 		<Timeline items={timelineItems} title={message.timeline.title} />
 		<Projects items={projects} labels={message.projects} />
 		<Articles items={articles} locale={lang} labels={message.articles} />
