@@ -4,6 +4,7 @@ title: HochiMe
 period: "2026.05"
 image: images/projects/houchi-me.png
 imageAlt: HochiMe app screen
+repoUrl: https://github.com/k-kanke/houchi-me
 projectTag: Hackathon
 summary: A web application where an AI clone reflecting the user's preferences autonomously explores a 3D virtual world and brings back interests and possibilities the user has not yet noticed. Won Engineer Guild Hackathon 2026 presented by Mercari.
 tags:

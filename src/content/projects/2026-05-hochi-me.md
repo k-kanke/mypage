@@ -4,6 +4,7 @@ title: 放置Me
 period: "2026.05"
 image: images/projects/houchi-me.png
 imageAlt: 放置Me のアプリ画面
+repoUrl: https://github.com/k-kanke/houchi-me
 projectTag: ハッカソン
 summary: ユーザーの志向を反映したAIクローンが3D仮想世界を自律的に探索し、まだ自分でも気づいていない興味や可能性を持ち帰ってくれるWebアプリケーション。Engineer Guild Hackathon 2026 presented by Mercari 優勝。
 tags:
