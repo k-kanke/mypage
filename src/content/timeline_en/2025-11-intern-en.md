@@ -1,6 +1,7 @@
 ---
 lang: en
-title: 3shake Internship
+title: 3-shake Inc.
+role: Intern
 from: "2025.11"
 to: "2025.12"
 tags:

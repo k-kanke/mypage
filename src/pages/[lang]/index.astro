@@ -31,7 +31,15 @@ const { Content: ProfileContent } = await profileEntry.render();
 const profile = profileEntry.data;
 
 const timelineEntries = await getCollection(collectionKey.timeline);
-const sortedTimelineEntries = [...timelineEntries].sort((a, b) => b.slug.localeCompare(a.slug));
+const monthValue = (value: string) => {
+ const [year, month] = value.split('.').map(Number);
+ return year * 12 + month;
+};
+const sortedTimelineEntries = [...timelineEntries].sort((a, b) =>
+ Number(b.data.to === 'present') - Number(a.data.to === 'present') ||
+ monthValue(b.data.from) - monthValue(a.data.from) ||
+ b.slug.localeCompare(a.slug),
+);
 const timelineItems = await Promise.all(
 	sortedTimelineEntries.map(async (entry) => {
 		const { Content } = await entry.render();
@@ -78,30 +86,21 @@ const articles = await Promise.all(
 	<main class="page">
 		<Hero
 			name={profile.name}
-			role={profile.role}
 			links={profile.links}
 			Content={ProfileContent}
 			labels={message.hero}
 		/>
-		<Timeline items={timelineItems} title={message.timeline.title} />
-		<Projects items={projects} labels={message.projects} />
+		<Timeline items={timelineItems} title={message.timeline.title} locale={lang} />
 		<Articles items={articles} locale={lang} labels={message.articles} />
+		<Projects items={projects} labels={message.projects} />
 	</main>
 </Layout>
 
 <style>
-	.page {
-		min-height: 100%;
-		padding: 24px 20px 96px;
-		max-width: 960px;
-		margin: 0 auto;
-		display: grid;
-		gap: 40px;
-	}
 
-	@media (max-width: 640px) {
-		.page {
-			padding: 20px 16px 72px;
-		}
-	}
+ .page { padding: 0 40px 100px; max-width: 1000px; margin: 0 auto; display: grid; row-gap: 0; }
+ .page > :global(.card) { margin-top: 72px; }
+ .page > :global(.hero + .card) { margin-top: 24px; }
+ @media (max-width: 640px) { .page { padding: 0 24px 64px; } .page > :global(.card) { margin-top: 48px; } .page > :global(.hero + .card) { margin-top: 20px; } }
+
 </style>

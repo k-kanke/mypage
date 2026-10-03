@@ -32,8 +32,8 @@ export type Messages = {
 export const messages: Record<Locale, Messages> = {
 	ja: {
 		meta: {
-			title: '自己紹介 | デモ',
-			description: 'シンプルな自己紹介サイトのデモ',
+			title: 'k-kanke | Portfolio',
+			description: 'k-kankeのプロフィール、制作物、経歴、技術記事。',
 		},
 		layout: {
 			languageSwitcherLabel: '言語切り替え',
@@ -43,11 +43,11 @@ export const messages: Record<Locale, Messages> = {
 			},
 		},
 		hero: {
-			eyebrow: 'Self Introduction',
+			eyebrow: 'Portfolio / Engineering',
 			linksAriaLabel: 'リンク',
 		},
 		timeline: {
-			title: 'Timeline',
+			title: 'Experience',
 		},
 		projects: {
 			title: 'Projects',
@@ -63,8 +63,8 @@ export const messages: Record<Locale, Messages> = {
 	},
 	en: {
 		meta: {
-			title: 'Profile | Demo',
-			description: 'A simple self-introduction website demo',
+			title: 'k-kanke | Portfolio',
+			description: 'Profile, projects, experience and writing by k-kanke.',
 		},
 		layout: {
 			languageSwitcherLabel: 'Language switcher',
@@ -74,11 +74,11 @@ export const messages: Record<Locale, Messages> = {
 			},
 		},
 		hero: {
-			eyebrow: 'Self Introduction',
+			eyebrow: 'Portfolio / Engineering',
 			linksAriaLabel: 'Links',
 		},
 		timeline: {
-			title: 'Timeline',
+			title: 'Experience',
 		},
 		projects: {
 			title: 'Projects',

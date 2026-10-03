@@ -1,6 +1,7 @@
 import { defineCollection, z } from 'astro:content';
 
 const timelineSchema = z.object({
+	role: z.string().optional(),
 	lang: z.enum(['ja', 'en']).default('ja'),
 	title: z.string(),
 	from: z.coerce.string(),
@@ -17,7 +18,7 @@ const profileSchema = z.object({
 			z.object({
 				label: z.string(),
 				url: z.string().url(),
-				icon: z.enum(['github', 'x', 'web']),
+				icon: z.enum(['github', 'x', 'web', 'linkedin']),
 			}),
 		)
 		.default([]),

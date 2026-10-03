@@ -51,6 +51,7 @@ const githubIcon = {
 				{project.image ? (
 					<img
 						class="project-image"
+                        loading="lazy"
 						src={toAssetPath(project.image)}
 						alt={project.imageAlt ?? project.title}
 					/>
@@ -82,7 +83,7 @@ const githubIcon = {
 						{getGallery(project).length ? (
 							<div class="modal-gallery" aria-label={labels.galleryAriaLabel}>
 								{getGallery(project).map((src) => (
-									<img class="modal-image" src={src} alt={project.title} />
+									<img class="modal-image" loading="lazy" src={src} alt={project.title} />
 								))}
 							</div>
 						) : null}
@@ -133,38 +134,8 @@ const githubIcon = {
 </script>
 
 <style>
-	.card {
-		background: #ffffff;
-		border-radius: 20px;
-		padding: 28px 32px;
-		border: 1px solid rgba(30, 30, 30, 0.06);
-		box-shadow: 0 12px 30px rgba(30, 30, 30, 0.06);
-	}
-
-	.card h2 {
-		margin: 0 0 16px;
-		font-size: 16px;
-		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		color: #515151;
-	}
-
-	.grid {
-		display: grid;
-		grid-template-columns: repeat(2, minmax(0, 1fr));
-		gap: 18px;
-	}
-
-	.project {
-		padding: 16px 18px;
-		border-radius: 16px;
-		border: 1px solid rgba(30, 30, 30, 0.08);
-		background: rgba(250, 250, 250, 0.9);
-		display: grid;
-		gap: 6px;
-		position: relative;
-	}
-
+ .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 44px 32px; }
+ .project { position: relative; display: flex; flex-direction: column; min-width: 0; border-bottom: 1px solid #d6d6d6; padding-bottom: 24px; }
 	.project-open {
 		position: absolute;
 		inset: 0;
@@ -195,9 +166,9 @@ const githubIcon = {
 		font-size: 10px;
 		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
 		letter-spacing: 0.06em;
-		color: #3d4a3d;
-		background: rgba(207, 224, 211, 0.7);
-		border: 1px solid rgba(61, 74, 61, 0.16);
+		color: #414141;
+		background: rgba(214, 214, 214, 0.7);
+		border: 1px solid rgba(65, 65, 65, 0.16);
 		line-height: 1.1;
 	}
 
@@ -208,14 +179,14 @@ const githubIcon = {
 		display: inline-flex;
 		align-items: center;
 		justify-content: center;
-		color: #1b4c4c;
-		background: rgba(27, 76, 76, 0.1);
+		color: #3c3c3c;
+		background: rgba(60, 60, 60, 0.1);
 		transition: transform 0.15s ease, background 0.15s ease;
 	}
 
 	.repo-link:hover {
 		transform: translateY(-1px);
-		background: rgba(27, 76, 76, 0.18);
+		background: rgba(60, 60, 60, 0.18);
 	}
 
 	.repo-link svg {
@@ -310,7 +281,7 @@ const githubIcon = {
 
 	.project-link {
 		font-size: 12px;
-		color: #1b4c4c;
+		color: #3c3c3c;
 		text-decoration: none;
 		position: relative;
 		z-index: 2;
@@ -348,8 +319,8 @@ const githubIcon = {
 		height: 28px;
 		border-radius: 999px;
 		border: none;
-		background: rgba(27, 76, 76, 0.1);
-		color: #1b4c4c;
+		background: rgba(60, 60, 60, 0.1);
+		color: #3c3c3c;
 		cursor: pointer;
 		font-size: 18px;
 	}
@@ -396,7 +367,7 @@ const githubIcon = {
 
 	.modal-links a {
 		font-size: 12px;
-		color: #1b4c4c;
+		color: #3c3c3c;
 		text-decoration: none;
 	}
 
@@ -404,13 +375,23 @@ const githubIcon = {
 		text-decoration: underline;
 	}
 
-	@media (max-width: 640px) {
-		.card {
-			padding: 28px 24px;
-		}
 
-		.grid {
-			grid-template-columns: 1fr;
-		}
-	}
+ .project-meta { position: relative; top: auto; right: auto; order: 1; justify-content: space-between; margin: 16px 0 8px; pointer-events: none; }
+ .repo-link { pointer-events: auto; background: none; color: #545454; border-radius: 0; }
+ .project-category { padding: 0; background: none; border: 0; color: #727272; font-size: 10px; }
+ .project > .project-period { order: 2; font-size: 11px; color: #727272; }
+ .project-image { order: 0; border-radius: 0; border: 1px solid #dedede; aspect-ratio: 16 / 10; object-fit: contain; background: #ebebeb; }
+ .project-body { order: 3; gap: 10px; margin-top: 8px; }
+ .project h3 { font-size: 20px; font-weight: 500; letter-spacing: -.025em; margin: 0; color: #242424; }
+ .project p, .project :global(p), .project :global(ul) { font-size: 13px; color: #656565; }
+ .tag { padding: 0; border: 0; background: none; border-radius: 0; color: #6a6a6a; font-size: 10px; }
+ .tag-list { gap: 6px 14px; }
+ .project-link { color: #545454; text-decoration: underline; overflow-wrap: anywhere; }
+ .project-modal { border-radius: 2px; background: #ffffff; max-height: 88dvh; }
+ .modal-content { padding: 36px; }
+ .modal-header { padding-right: 36px; }
+ .modal-close { width: 36px; height: 36px; border-radius: 0; background: #e4e4e4; color: #434343; }
+ .modal-image { border-radius: 0; }
+ .project:has(.project-open:hover) h3 { color: #666666; }
+ @media (max-width: 640px) { .grid { grid-template-columns: 1fr; gap: 36px; } .modal-content { padding: 24px; } .modal-image { height: 280px; max-width: 76vw; } }
 </style>

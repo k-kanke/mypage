@@ -1,9 +1,9 @@
 ---
-const { items, title } = Astro.props;
+const { items, title, locale = 'ja' } = Astro.props;
 
 const formatRange = (item) => {
 	if (item.to && item.to !== '') {
-		return `${item.from} - ${item.to}`;
+		return `${item.from} – ${item.to === 'present' ? (locale === 'ja' ? '現在' : 'Present') : item.to}`;
 	}
 	return item.from;
 };
@@ -14,9 +14,15 @@ const formatRange = (item) => {
 	<ol class="timeline-list">
 		{items.map((item) => (
 			<li>
-				<time>{formatRange(item)}</time>
-				<div>
-					<h3>{item.title}</h3>
+				<div class="timeline-axis" aria-hidden="true"><span></span></div>
+				<div class="experience-body">
+					<div class="experience-heading">
+                        <h3>{item.title}</h3>
+                    </div>
+					<div class="experience-meta">
+						<time>{formatRange(item)}</time>
+						{item.role ? <span class="experience-role">{item.role}</span> : null}
+					</div>
 					{item.Content ? <item.Content /> : <p>{item.description}</p>}
 					{item.tags?.length ? (
 						<div class="tag-list" role="list">
@@ -32,173 +38,28 @@ const formatRange = (item) => {
 </section>
 
 <style>
-	.card {
-		background: #ffffff;
-		border-radius: 20px;
-		padding: 28px 32px;
-		border: 1px solid rgba(30, 30, 30, 0.06);
-		box-shadow: 0 12px 30px rgba(30, 30, 30, 0.06);
-	}
-
-	.card h2 {
-		margin: 0 0 16px;
-		font-size: 16px;
-		text-transform: uppercase;
-		letter-spacing: 0.12em;
-		color: #515151;
-	}
-
-	.timeline-list {
-		list-style: none;
-		margin: 0;
-		padding: 0;
-		position: relative;
-		display: grid;
-		gap: 32px;
-		--time-col: 120px;
-		--line-x: calc(var(--time-col) + 12px);
-	}
-
-	.timeline-list::before {
-		content: '';
-		position: absolute;
-		left: var(--line-x);
-		top: 6px;
-		bottom: 6px;
-		width: 2px;
-		background: linear-gradient(180deg, #c9d4d4 0%, #cfe0d3 100%);
-	}
-
-	.timeline-list li {
-		display: grid;
-		grid-template-columns: var(--time-col) 1fr;
-		gap: 28px;
-		align-items: start;
-		position: relative;
-	}
-
-	.timeline-list li > time {
-		padding-top: 6px;
-	}
-
-	.timeline-list li::before {
-		content: '';
-		position: absolute;
-		left: calc(var(--line-x) - 8px);
-		top: 6px;
-		width: 16px;
-		height: 16px;
-		border-radius: 50%;
-		background: #1b4c4c;
-		box-shadow: 0 0 0 6px rgba(27, 76, 76, 0.15);
-	}
-
-	.timeline-list time {
-		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
-		font-size: 11px;
-		letter-spacing: 0.08em;
-		color: #6a6a6a;
-		display: block;
-		text-align: right;
-		padding-right: 16px;
-		min-width: 84px;
-	}
-
-	.timeline-list h3 {
-		margin: 0 0 6px;
-		font-size: 16px;
-		font-family: 'IBM Plex Sans', 'Noto Sans JP', sans-serif;
-		letter-spacing: 0.01em;
-	}
-
-	.timeline-list p {
-		margin: 0;
-		font-size: 8px;
-		font-family: 'IBM Plex Serif', 'Noto Serif JP', serif;
-		letter-spacing: 0.004em;
-		line-height: 1.7;
-		color: #3f3f3f;
-	}
-
-	.timeline-list blockquote {
-		margin: 6px 0 0;
-		padding: 10px 14px;
-		border-left: 3px solid rgba(27, 76, 76, 0.35);
-		background: rgba(27, 76, 76, 0.06);
-		border-radius: 10px;
-		font-family: 'IBM Plex Serif', 'Noto Serif JP', serif;
-		font-size: 8px;
-		line-height: 1.7;
-		color: #2f2f2f;
-	}
-
-	.timeline-list blockquote p {
-		margin: 0;
-	}
-
-	.timeline-list ul:not(.tag-list) {
-		margin: 0;
-		padding-left: 18px;
-		display: grid;
-		gap: 6px;
-	}
-
-	.timeline-list ul,
-	.timeline-list li ul li {
-		color: #3f3f3f;
-		font-family: 'IBM Plex Serif', 'Noto Serif JP', serif;
-		letter-spacing: 0.004em;
-	}
-
-	.timeline-list li ul li {
-		list-style: disc;
-	}
-
-	.timeline-list li > div {
-		padding-left: 8px;
-	}
-
-	.tag-list {
-		margin: 0 0 8px;
-		display: flex;
-		flex-wrap: wrap;
-		gap: 6px;
-	}
-
-	.tag {
-		font-size: 11px;
-		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
-		letter-spacing: 0.05em;
-		padding: 3px 10px;
-		border-radius: 999px;
-		background: #ffffff;
-		border: 1px solid rgba(40, 40, 40, 0.14);
-		color: #4a4a4a;
-	}
-
-	@media (max-width: 640px) {
-		.card {
-			padding: 28px 24px;
-		}
-
-		.timeline-list::before {
-			left: 16px;
-		}
-
-		.timeline-list li {
-			grid-template-columns: 1fr;
-			padding-left: 32px;
-		}
-
-		.timeline-list li::before {
-			left: 8px;
-		}
-
-		.timeline-list time {
-			text-align: left;
-			padding-right: 0;
-			width: auto;
-			justify-self: start;
-		}
-	}
+ .timeline-list { list-style: none; margin: 0; padding: 0; width: 88%; }
+ .timeline-list > li { display: grid; grid-template-columns: 12px minmax(0, 1fr); column-gap: 24px; align-items: stretch; padding: 0; }
+ .timeline-axis { grid-column: 1; grid-row: 1; position: relative; }
+ .timeline-axis::before { content: ''; position: absolute; left: 5px; top: 22px; bottom: -22px; width: 2px; background: #777777; }
+ .timeline-axis > span { position: absolute; left: 0; top: 16px; width: 12px; height: 12px; border-radius: 50%; background: #333333; }
+ .timeline-list > li:last-child .timeline-axis::before { display: none; }
+ .timeline-list > li:last-child .experience-body { margin-bottom: 0; }
+ time { font-family: monospace; font-size: 12px; font-weight: 600; color: #444444; white-space: nowrap; }
+ .experience-body { grid-column: 2; grid-row: 1; min-width: 0; margin-bottom: 10px; overflow-wrap: anywhere; padding: 8px 12px; line-height: 1.5; border: 2px solid #999999; border-radius: 12px; background: transparent; }
+ .experience-meta { display: flex; flex-direction: column; align-items: flex-start; gap: 1px; margin-bottom: 4px; }
+ .experience-role { font-size: 15px; font-weight: 500; color: #333333; }
+ .tag-list { gap: 2px 10px; margin-top: 4px; }
+ .tag { font-size: 13px; font-weight: 500; color: #444444; }
+ .experience-heading { display: flex; flex-wrap: wrap; align-items: center; gap: 4px 10px; margin-bottom: 2px; }
+ h3 { margin: 0; font-size: 20px; font-weight: 600; line-height: 1.35; }
+ .timeline-list :global(p), .timeline-list :global(ul) { margin: 0 0 4px; font-size: 13px; color: #656565; line-height: 1.6; }
+ .timeline-list :global(ul) { padding-left: 20px; }
+ .timeline-list :global(blockquote) { margin: 4px 0; padding-left: 12px; border-left: 2px solid #c7c7c7; }
+ .experience-body > :global(:last-child) { margin-bottom: 0; }
+ @media (max-width: 640px) {
+  .timeline-list { width: 100%; }
+  .timeline-list > li { column-gap: 16px; }
+  .experience-body { padding: 8px 10px; }
+ }
 </style>

@@ -1,6 +1,7 @@
 ---
 lang: en
 title: UPGRADE Ltd.
+role: Intern
 from: "2024.11"
 to: "2025.6"
 tags:
