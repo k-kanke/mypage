@@ -1,7 +1,12 @@
 ---
-const { name, role, links = [], Content, labels } = Astro.props;
+const { name, links = [], Content, labels } = Astro.props;
+const photoSrc = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/images/projects/yama.jpg`;
 
 const icons = {
+ linkedin: {
+  viewBox: '0 0 24 24',
+  path: 'M20.45 2H3.55C2.69 2 2 2.68 2 3.52v16.96C2 21.32 2.69 22 3.55 22h16.9c.86 0 1.55-.68 1.55-1.52V3.52C22 2.68 21.31 2 20.45 2zM7.93 18.75H4.98V9.2h2.95v9.55zM6.46 7.89a1.71 1.71 0 1 1 0-3.42 1.71 1.71 0 0 1 0 3.42zm12.29 10.86H15.8V14.1c0-1.11-.02-2.54-1.55-2.54-1.55 0-1.79 1.21-1.79 2.46v4.73H9.51V9.2h2.83v1.3h.04c.39-.74 1.36-1.52 2.79-1.52 2.99 0 3.58 1.97 3.58 4.53v5.24z',
+ },
 	github: {
 		viewBox: '0 0 24 24',
 		path:
@@ -21,9 +26,18 @@ const icons = {
 ---
 
 <header class="hero">
-	<p class="eyebrow">{labels.eyebrow}</p>
 	<div class="title-row">
 		<h1 class="title">{name}</h1>
+
+	</div>
+	<div class="profile-details">
+		<div class="profile-photo-frame">
+			<img class="profile-photo" src={photoSrc} alt={name} width="144" height="200" />
+		</div>
+		<div class="profile-copy">
+			<div class="lead">
+				{Content ? <Content /> : null}
+			</div>
 		<nav class="icon-links" aria-label={labels.linksAriaLabel}>
 			{links.map((item) =>
 				icons[item.icon] ? (
@@ -32,8 +46,8 @@ const icons = {
 							viewBox={icons[item.icon].viewBox}
 							aria-hidden="true"
 							focusable="false"
-							width="16"
-							height="16"
+							width="24"
+							height="24"
 						>
 							<path d={icons[item.icon].path} />
 						</svg>
@@ -41,94 +55,28 @@ const icons = {
 				) : null,
 			)}
 		</nav>
-	</div>
-	<p class="role">{role}</p>
-	<div class="lead">
-		{Content ? <Content /> : null}
+		</div>
 	</div>
 </header>
 
 <style>
-	.hero {
-		background: #ffffff;
-		border-radius: 24px;
-		padding: 40px;
-		box-shadow: 0 20px 40px rgba(30, 30, 30, 0.08);
-		border: 1px solid rgba(30, 30, 30, 0.06);
-	}
-
-	.eyebrow {
-		font-family: 'IBM Plex Mono', 'Noto Sans JP', monospace;
-		font-size: 12px;
-		letter-spacing: 0.2em;
-		text-transform: uppercase;
-		margin: 0 0 12px;
-		color: #5a5a5a;
-	}
-
-	.title {
-		font-size: clamp(28px, 5vw, 44px);
-		margin: 0 0 8px;
-	}
-
-	.title-row {
-		display: flex;
-		align-items: center;
-		gap: 16px;
-		flex-wrap: wrap;
-	}
-
-	.icon-links {
-		display: inline-flex;
-		gap: 10px;
-		align-items: center;
-	}
-
-	.icon-link {
-		width: 32px;
-		height: 32px;
-		border-radius: 999px;
-		display: inline-flex;
-		align-items: center;
-		justify-content: center;
-		color: #1b4c4c;
-		background: rgba(27, 76, 76, 0.08);
-		transition: transform 0.15s ease, background 0.15s ease;
-		overflow: hidden;
-	}
-
-	.icon-link:hover {
-		transform: translateY(-1px);
-		background: rgba(27, 76, 76, 0.16);
-	}
-
-	.icon-link svg {
-		width: 16px;
-		height: 16px;
-		display: block;
-		fill: currentColor;
-	}
-
-	.role {
-		font-size: 16px;
-		margin: 0 0 16px;
-		color: #3f3f3f;
-	}
-
-	.lead {
-		margin: 0;
-		font-size: 15px;
-		line-height: 1.8;
-		color: #2c2c2c;
-	}
-
-	.lead :global(p) {
-		margin: 0;
-	}
-
-	@media (max-width: 640px) {
-		.hero {
-			padding: 28px 24px;
-		}
-	}
+ .hero { padding: 16px 0 0; }
+ .title-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
+ .title { font-size: clamp(36px, 5vw, 52px); line-height: 1.05; font-weight: 500; letter-spacing: -.065em; margin: 0; }
+ .icon-links { display: flex; gap: 8px; margin-top: 20px; }
+ .icon-link { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; color: #434343; }
+ .icon-link:hover { color: #000000; }
+ .icon-link svg { fill: currentColor; }
+ .profile-details { display: grid; grid-template-columns: minmax(0, 144px) minmax(0, 1fr); align-items: start; gap: 24px; padding-top: 12px; }
+ .profile-photo-frame { width: 144px; max-width: 100%; min-width: 0; overflow: hidden; border-radius: 6px; }
+ .profile-photo { display: block; width: 144px; max-width: 100%; height: auto; max-height: 200px; object-fit: contain; }
+ .profile-copy { min-width: 0; }
+ .lead { min-width: 0; font-size: 14px; line-height: 1.85; }
+ .lead :global(p) { margin: 0 0 8px; }
+ .lead :global(p:last-child) { margin-bottom: 0; color: #242424; font-weight: 500; }
+ @media (max-width: 640px) {
+  .hero { padding-top: 12px; }
+  .title-row { margin-bottom: 12px; }
+  .profile-details { grid-template-columns: minmax(0, 1fr); gap: 10px; padding-top: 12px; }
+ }
 </style>

@@ -1,6 +1,7 @@
 ---
 lang: en
 title: SalesNow Ltd.
+role: Full-stack Engineer Intern
 from: "2025.07"
 to: "2026.01"
 tags:

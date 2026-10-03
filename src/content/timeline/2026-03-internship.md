@@ -1,6 +1,7 @@
 ---
 lang: ja
-title: CARTA HOLDINGS Internship
+title: CARTA HOLDINGS
+role: インターン
 from: "2026.03"
 to: ""
 tags:
