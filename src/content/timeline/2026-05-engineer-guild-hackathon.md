@@ -2,6 +2,8 @@
 lang: ja
 title: Engineer Guild Hackathon 2026 presented by Mercari 優勝
 from: "2026.05"
+previewUrls:
+  - https://careers.mercari.com/mercan/articles/62377/
 tags:
   - Hackathon
   - Award

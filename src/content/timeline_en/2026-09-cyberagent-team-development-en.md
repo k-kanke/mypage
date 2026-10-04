@@ -1,7 +1,7 @@
 ---
 lang: en
 title: CyberAgent
-role: Team Development (3 days)
+role: Backend Engineer Intern
 from: "2026.09"
 to: ""
 tags:
@@ -13,4 +13,4 @@ tags:
   - MySQL
 ---
 
-Worked on developing a DSP for ad delivery during a three-day team development program.
+Worked on developing a DSP for ad delivery during a team development program.

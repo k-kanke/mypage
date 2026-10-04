@@ -4,6 +4,8 @@ title: 3-shake Inc.
 role: Intern
 from: "2025.11"
 to: "2025.12"
+previewUrls:
+  - https://sreake.com/blog/kubesploit-threat-simulation-and-defense-measures/
 tags:
   - Kubernetes
   - AWS
