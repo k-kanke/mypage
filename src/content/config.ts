@@ -7,6 +7,7 @@ const timelineSchema = z.object({
 	from: z.coerce.string(),
 	to: z.coerce.string().optional(),
 	tags: z.array(z.string()).optional(),
+	previewUrls: z.array(z.string().url()).default([]),
 });
 
 const profileSchema = z.object({
