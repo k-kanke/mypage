@@ -2,7 +2,6 @@
 import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import Hero from '../../components/Hero.astro';
-import Projects from '../../components/Projects.astro';
 import Articles from '../../components/Articles.astro';
 import { fetchLinkPreview } from '../../lib/ogp';
 import Timeline from '../../components/Timeline.astro';
@@ -19,7 +18,6 @@ const message = messages[lang];
 const collectionKey = {
 	profile: lang === 'en' ? 'profile_en' : 'profile',
 	timeline: lang === 'en' ? 'timeline_en' : 'timeline',
-	projects: lang === 'en' ? 'projects_en' : 'projects',
 	articles: lang === 'en' ? 'articles_en' : 'articles',
 } as const;
 
@@ -49,18 +47,6 @@ const timelineItems = await Promise.all(
 			...entry.data,
 			Content,
 			previews,
-		};
-	}),
-);
-
-const projectEntries = await getCollection(collectionKey.projects);
-const sortedProjectEntries = [...projectEntries].sort((a, b) => b.slug.localeCompare(a.slug));
-const projects = await Promise.all(
-	sortedProjectEntries.map(async (entry) => {
-		const { Content } = await entry.render();
-		return {
-			...entry.data,
-			Content,
 		};
 	}),
 );
@@ -95,7 +81,6 @@ const articles = await Promise.all(
 		/>
 		<Timeline items={timelineItems} title={message.timeline.title} locale={lang} />
 		<Articles items={articles} locale={lang} labels={message.articles} />
-		<Projects items={projects} labels={message.projects} />
 	</main>
 </Layout>
 

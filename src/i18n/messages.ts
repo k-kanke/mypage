@@ -16,13 +16,6 @@ export type Messages = {
 	timeline: {
 		title: string;
 	};
-	projects: {
-		title: string;
-		openProjectAriaLabel: (title: string) => string;
-		repoAriaLabel: string;
-		closeAriaLabel: string;
-		galleryAriaLabel: string;
-	};
 	articles: {
 		title: string;
 		empty: string;
@@ -49,13 +42,6 @@ export const messages: Record<Locale, Messages> = {
 		timeline: {
 			title: 'Experience',
 		},
-		projects: {
-			title: 'Projects',
-			openProjectAriaLabel: (title) => `${title} を開く`,
-			repoAriaLabel: 'GitHub リポジトリ',
-			closeAriaLabel: '閉じる',
-			galleryAriaLabel: 'プロジェクト画像',
-		},
 		articles: {
 			title: 'Articles',
 			empty: '`src/content/articles` に記事を追加するとここに表示されます。',
@@ -79,13 +65,6 @@ export const messages: Record<Locale, Messages> = {
 		},
 		timeline: {
 			title: 'Experience',
-		},
-		projects: {
-			title: 'Projects',
-			openProjectAriaLabel: (title) => `Open ${title}`,
-			repoAriaLabel: 'GitHub repository',
-			closeAriaLabel: 'Close',
-			galleryAriaLabel: 'Project images',
 		},
 		articles: {
 			title: 'Articles',
