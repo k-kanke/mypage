@@ -1,6 +1,6 @@
 ---
 const { name, links = [], Content, labels } = Astro.props;
-const photoSrc = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/images/projects/yama.jpg`;
+const photoSrc = `${import.meta.env.BASE_URL.replace(/\/$/, '')}/images/projects/1792281973447~5.jpg`;
 
 const icons = {
  linkedin: {
@@ -31,30 +31,32 @@ const icons = {
 
 	</div>
 	<div class="profile-details">
-		<div class="profile-photo-frame">
-			<img class="profile-photo" src={photoSrc} alt={name} width="144" height="200" />
+		<div class="profile-photo-column">
+			<div class="profile-photo-frame">
+				<img class="profile-photo" src={photoSrc} alt={name} width="260" height="280" />
+			</div>
 		</div>
 		<div class="profile-copy">
 			<div class="lead">
 				{Content ? <Content /> : null}
 			</div>
-		<nav class="icon-links" aria-label={labels.linksAriaLabel}>
-			{links.map((item) =>
-				icons[item.icon] ? (
-					<a class="icon-link" href={item.url} aria-label={item.label}>
-						<svg
-							viewBox={icons[item.icon].viewBox}
-							aria-hidden="true"
-							focusable="false"
-							width="24"
-							height="24"
-						>
-							<path d={icons[item.icon].path} />
-						</svg>
-					</a>
-				) : null,
-			)}
-		</nav>
+			<nav class="icon-links" aria-label={labels.linksAriaLabel}>
+				{links.map((item) =>
+					icons[item.icon] ? (
+						<a class="icon-link" href={item.url} aria-label={item.label}>
+							<svg
+								viewBox={icons[item.icon].viewBox}
+								aria-hidden="true"
+								focusable="false"
+								width="24"
+								height="24"
+							>
+								<path d={icons[item.icon].path} />
+							</svg>
+						</a>
+					) : null,
+				)}
+			</nav>
 		</div>
 	</div>
 </header>
@@ -63,14 +65,15 @@ const icons = {
  .hero { padding: 16px 0 0; }
  .title-row { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; margin-bottom: 12px; }
  .title { font-size: clamp(36px, 5vw, 52px); line-height: 1.05; font-weight: 500; letter-spacing: -.065em; margin: 0; }
- .icon-links { display: flex; gap: 8px; margin-top: 20px; }
+ .icon-links { display: flex; gap: 8px; margin-top: auto; }
  .icon-link { width: 44px; height: 44px; display: inline-flex; align-items: center; justify-content: center; color: #434343; }
  .icon-link:hover { color: #000000; }
  .icon-link svg { fill: currentColor; }
- .profile-details { display: grid; grid-template-columns: minmax(0, 144px) minmax(0, 1fr); align-items: start; gap: 24px; padding-top: 12px; }
- .profile-photo-frame { width: 144px; max-width: 100%; min-width: 0; overflow: hidden; border-radius: 6px; }
- .profile-photo { display: block; width: 144px; max-width: 100%; height: auto; max-height: 200px; object-fit: contain; }
- .profile-copy { min-width: 0; }
+ .profile-details { display: grid; grid-template-columns: minmax(0, 260px) minmax(0, 1fr); align-items: start; gap: 24px; padding-top: 12px; }
+ .profile-photo-column { width: 260px; max-width: 100%; min-width: 0; }
+ .profile-photo-frame { width: 260px; height: 280px; max-width: 100%; min-width: 0; overflow: hidden; border-radius: 6px; }
+ .profile-photo { display: block; width: 100%; height: 100%; object-fit: cover; object-position: center; }
+ .profile-copy { display: flex; flex-direction: column; min-width: 0; min-height: 280px; }
  .lead { min-width: 0; font-size: 14px; line-height: 1.85; }
  .lead :global(p) { margin: 0 0 8px; }
  .lead :global(p:last-child) { margin-bottom: 0; color: #242424; font-weight: 500; }
@@ -78,5 +81,7 @@ const icons = {
   .hero { padding-top: 12px; }
   .title-row { margin-bottom: 12px; }
   .profile-details { grid-template-columns: minmax(0, 1fr); gap: 10px; padding-top: 12px; }
+  .profile-copy { min-height: auto; }
+  .icon-links { margin-top: 20px; }
  }
 </style>
