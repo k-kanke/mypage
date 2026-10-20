@@ -1,5 +1,6 @@
 ---
 const { items, locale, labels } = Astro.props;
+const initialVisible = 3;
 
 const formatDate = (date) =>
 	new Intl.DateTimeFormat(locale === 'en' ? 'en-US' : 'ja-JP', {
@@ -9,16 +10,25 @@ const formatDate = (date) =>
 	}).format(date);
 ---
 
-<section class="card articles">
+<section class="card articles" data-articles data-initial-visible={initialVisible}>
 	<h2>{labels.title}</h2>
 	{items.length ? (
+		<>
 		<div class="list">
-			{items.map((article) => (
-				<article class="article">
+			{items.map((article, index) => (
+				<article class="article" data-article hidden={index >= initialVisible}>
 					<p class="article-date">{formatDate(article.publishedAt)}</p>
 					<h3>
 						<a href={article.url} target="_blank" rel="noreferrer">{article.title}</a>
 					</h3>
+					<a class="link-preview" href={article.url} target="_blank" rel="noreferrer">
+						{article.preview.image ? <img src={article.preview.image} alt="" loading="lazy" /> : null}
+						<span class="link-preview-text">
+							<span class="link-preview-title">{article.preview.title}</span>
+							{article.preview.description ? <span class="link-preview-desc">{article.preview.description}</span> : null}
+							<span class="link-preview-site">{article.preview.siteName} ↗</span>
+						</span>
+					</a>
 					{article.Content ? <article.Content /> : null}
 					{article.tags?.length ? (
 						<div class="tag-list" role="list">
@@ -30,6 +40,19 @@ const formatDate = (date) =>
 				</article>
 			))}
 		</div>
+		{items.length > initialVisible ? (
+			<button
+				class="article-toggle"
+				type="button"
+				data-article-toggle
+				data-show-more={labels.showMore}
+				data-show-less={labels.showLess}
+				aria-expanded="false"
+			>
+				{labels.showMore}
+			</button>
+		) : null}
+		</>
 	) : (
 		<p class="empty">{labels.empty}</p>
 	)}
@@ -46,7 +69,43 @@ const formatDate = (date) =>
  h3 a::after { content: ' ↗'; color: #7b7b7b; }
  h3 a:hover { text-decoration: underline; }
  .article :global(p:not(.article-date)) { margin: 0 0 12px; font-size: 13px; color: #656565; }
+ .tag-list { gap: 2px 10px; margin-top: 4px; }
+ .tag { font-size: 13px; font-weight: 500; color: #444444; }
+ .link-preview { display: flex; align-items: center; gap: 12px; margin: 8px 0 4px; border: 1px solid #d0d0d0; border-radius: 8px; overflow: hidden; text-decoration: none; color: inherit; background: #fafafa; }
+ .link-preview:hover { background: #f2f2f2; color: inherit; }
+ .link-preview img { width: 100px; height: 64px; flex: none; object-fit: cover; }
+ .link-preview-text { display: flex; flex-direction: column; gap: 2px; padding: 8px 10px 8px 0; min-width: 0; }
+ .link-preview:not(:has(img)) .link-preview-text { padding-left: 10px; }
+ .link-preview-title { font-size: 13px; font-weight: 600; line-height: 1.5; color: #242424; }
+ .link-preview-desc { display: -webkit-box; overflow: hidden; font-size: 12px; color: #656565; line-height: 1.5; -webkit-box-orient: vertical; -webkit-line-clamp: 2; }
+ .link-preview-site { font-size: 11px; color: #7b7b7b; }
+ .article-toggle { display: block; margin: 24px auto 0; padding: 8px 16px; border: 1px solid #999999; border-radius: 999px; color: #333333; background: transparent; font: inherit; font-size: 13px; cursor: pointer; }
+ .article-toggle:hover { background: #f2f2f2; }
  .empty { color: #656565; }
- @media (max-width: 640px) { .article { padding: 24px 0; } .article-date { position: static; margin-bottom: 10px; } }
+ @media (max-width: 640px) {
+  .article { padding: 24px 0; }
+  .article-date { position: static; margin-bottom: 10px; }
+  .link-preview { flex-direction: column; }
+  .link-preview img { width: 100%; height: 100px; }
+  .link-preview-text { padding: 0 10px 8px; }
+ }
 
 </style>
+
+<script>
+	document.querySelectorAll('[data-articles]').forEach((section) => {
+		const toggle = section.querySelector('[data-article-toggle]');
+		if (!(toggle instanceof HTMLButtonElement)) return;
+
+		const articles = Array.from(section.querySelectorAll('[data-article]'));
+		const initialVisible = Number(section.dataset.initialVisible ?? 3);
+		toggle.addEventListener('click', () => {
+			const expanded = toggle.getAttribute('aria-expanded') === 'true';
+			articles.forEach((article, index) => {
+				article.hidden = expanded && index >= initialVisible;
+			});
+			toggle.setAttribute('aria-expanded', String(!expanded));
+			toggle.textContent = expanded ? toggle.dataset.showMore ?? '' : toggle.dataset.showLess ?? '';
+		});
+	});
+</script>

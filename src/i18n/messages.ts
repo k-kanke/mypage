@@ -19,6 +19,8 @@ export type Messages = {
 	articles: {
 		title: string;
 		empty: string;
+		showMore: string;
+		showLess: string;
 	};
 };
 
@@ -45,6 +47,8 @@ export const messages: Record<Locale, Messages> = {
 		articles: {
 			title: 'Articles',
 			empty: '`src/content/articles` に記事を追加するとここに表示されます。',
+			showMore: 'もっと見る',
+			showLess: '閉じる',
 		},
 	},
 	en: {
@@ -69,6 +73,8 @@ export const messages: Record<Locale, Messages> = {
 		articles: {
 			title: 'Articles',
 			empty: 'Articles will appear here when you add markdown files to `src/content/articles`.',
+			showMore: 'Show more',
+			showLess: 'Show less',
 		},
 	},
 };

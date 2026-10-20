@@ -58,9 +58,11 @@ const sortedArticles = [...articleEntries].sort(
 const articles = await Promise.all(
 	sortedArticles.map(async (entry) => {
 		const { Content } = await entry.render();
+		const preview = await fetchLinkPreview(entry.data.url);
 		return {
 			...entry.data,
 			Content,
+			preview,
 		};
 	}),
 );
